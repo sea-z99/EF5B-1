@@ -10,7 +10,10 @@ C_SRCS += \
 ../SoftSpi.c \
 ../Work.c \
 ../config_set.c \
-../main.c 
+../main.c \
+../music.c \
+../music_led.c \
+../timer.c 
 
 OBJS += \
 ./GPIO.o \
@@ -19,7 +22,10 @@ OBJS += \
 ./SoftSpi.o \
 ./Work.o \
 ./config_set.o \
-./main.o 
+./main.o \
+./music.o \
+./music_led.o \
+./timer.o 
 
 C_DEPS += \
 ./GPIO.dep \
@@ -28,7 +34,10 @@ C_DEPS += \
 ./SoftSpi.dep \
 ./Work.dep \
 ./config_set.dep \
-./main.dep 
+./main.dep \
+./music.dep \
+./music_led.dep \
+./timer.dep 
 
 
 # Each subdirectory must supply rules for building sources it contributes

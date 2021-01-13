@@ -8,7 +8,6 @@
 #ifndef OSC_H_
 #define OSC_H_
 
-void delay_ms(unsigned int num);
 void Init_OSC(unsigned char mode);
 
 

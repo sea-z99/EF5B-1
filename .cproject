@@ -21,7 +21,7 @@
 							<targetPlatform archList="all" binaryParser="org.eclipse.cdt.core.ELF" id="cdt.managedbuild.target.sdcc.platform.exe.release.1932854576" name="Release Platform" osList="solaris,linux,hpux,aix,qnx,win32" superClass="cdt.managedbuild.target.sdcc.platform.exe.release"/>
 							<builder buildPath="${workspace_loc:/01 GPIO_Sample/Release}" id="cdt.managedbuild.target.sdcc.builder.exe.release.29335897" keepEnvironmentInBuildfile="false" managedBuildOn="true" name="Gnu Make" superClass="cdt.managedbuild.target.sdcc.builder.exe.release"/>
 							<tool id="cdt.managedbuild.tool.sdcc.c.compiler.exe.release.182873312" name="C Compiler" superClass="cdt.managedbuild.tool.sdcc.c.compiler.exe.release">
-								<option id="com.chipon.chiponide.core.option.std.134803019" name="Language Standard" superClass="com.chipon.chiponide.core.option.std" value="com.chipon.chiponide.core.option.std.c99" valueType="enumerated"/>
+								<option id="com.chipon.chiponide.core.option.std.134803019" name="Language Standard" superClass="com.chipon.chiponide.core.option.std" value="com.chipon.chiponide.core.option.std.SDCC99" valueType="enumerated"/>
 								<inputType id="cdt.managedbuild.tool.sdcc.c.compiler.input.1721953128" superClass="cdt.managedbuild.tool.sdcc.c.compiler.input"/>
 							</tool>
 							<tool id="cdt.managedbuild.tool.sdcc.c.linker.exe.release.2145080843" name="C Project Linker Release" superClass="cdt.managedbuild.tool.sdcc.c.linker.exe.release">

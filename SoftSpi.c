@@ -35,6 +35,7 @@ void Spi_CS_High(char id)
 {
 	switch(id)
 	{
+		case 0:CS1HIGH;CS2HIGH;break;
 		case 1:CS1HIGH;break;
 		case 2:CS2HIGH;break;
 	}
@@ -43,6 +44,7 @@ void Spi_CS_Low(char id)
 {
 	switch(id)
 	{
+		case 0:CS1LOW;CS2LOW;break;
 		case 1:CS1LOW;break;
 		case 2:CS2LOW;break;
 	}
@@ -65,6 +67,25 @@ void SPI_Write_2Byte(unsigned char id,unsigned char addr,unsigned char dat)
 	SSCI2IF=0;
 	buf =SSCI2BUFR;
 	Spi_CS_High(id);
+}
+void SPI_All_Write_2Byte(unsigned char addr,unsigned char dat)
+{
+	char i=0;
+	volatile unsigned buf;
+	volatile unsigned char SPI_adr, SPI_data;
+	SPI_adr =addr;
+	SPI_data =dat;
+	Spi_CS_Low(0);
+	SSCI2BUFR=SPI_adr; //将待发送的字节放入发送缓存中
+	while(!SSCI2IF); //等待发送完毕后SSCIIF置位，
+	SSCI2IF=0;
+	buf =SSCI2BUFR;
+
+	SSCI2BUFR=SPI_data; //将待发送的字节放入发送缓存中
+	while(!SSCI2IF); //等待发送完毕后SSCIIF置位，
+	SSCI2IF=0;
+	buf =SSCI2BUFR;
+	Spi_CS_High(0);
 }
 void IS31FL3265B_Init(void)
 {

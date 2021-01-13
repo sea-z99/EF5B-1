@@ -14,7 +14,7 @@ void delay_ms(unsigned int num)
 	unsigned int i,j;
 	for(i=0;i<num;i++)
 	{
-		j=1000;
+		j=569;
 		while(j--);
 	}
 }

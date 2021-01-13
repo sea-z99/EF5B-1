@@ -17,11 +17,13 @@
 #define SDB1		PBLR2
 #define STOP		P9LR5
 
-#define TI			P90
+#define RT			P90
 #define BACK 		P42
 #define TAIL 		P43
 #define MUSIC_EN 	P44
 #define WB_EN 		P45
 #define TEST_EN 	P30
+#define RT_EN 		P86//低流水
+#define CB 			P84//高使能
 
 #endif /* PINCONFIG_H_ */
