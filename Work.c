@@ -84,6 +84,7 @@ void Led_Hello_Check(void)
 	}
 	if(Tail_Status==1&&RT_Status==1&&RT_EN_Status==1)
 	{
+		LED_All_Open();//3265B全开除转向
 		Init_1ms();
 		Timer1_Start();
 		Bye();

@@ -5,6 +5,7 @@
 # Add inputs and outputs from these tool invocations to the build variables 
 C_SRCS += \
 ../GPIO.c \
+../HelloBye.c \
 ../Led.c \
 ../OSC.c \
 ../SoftSpi.c \
@@ -17,6 +18,7 @@ C_SRCS += \
 
 OBJS += \
 ./GPIO.o \
+./HelloBye.o \
 ./Led.o \
 ./OSC.o \
 ./SoftSpi.o \
@@ -29,6 +31,7 @@ OBJS += \
 
 C_DEPS += \
 ./GPIO.dep \
+./HelloBye.dep \
 ./Led.dep \
 ./OSC.dep \
 ./SoftSpi.dep \
