@@ -27,5 +27,8 @@ void Tail_Stop_Check_Input(void);
 #define Mode4_Status 1<<4
 #define Mode5_Status 1<<5
 #define Mode6_Status 1<<6
+#define Mode7_Status 1<<7
+#define Mode8_Status 1<<8
+#define Mode9_Status 1<<9
 
 #endif /* WORK_H_ */

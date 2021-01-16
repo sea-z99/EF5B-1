@@ -1,0 +1,5 @@
+ "-c" "--no-peep" "-pKF8A200GQS" "-IE:\KungFuIDE\include" "-IC:\Users\Rick\Desktop\EF5B\EF5B程序\EF5B-1" "-oGPIO.o" "../GPIO.c"
+ "-c" "--no-peep" "-pKF8A200GQS" "-IE:\KungFuIDE\include" "-IC:\Users\Rick\Desktop\EF5B\EF5B程序\EF5B-1" "-oHelloBye.o" "../HelloBye.c"
+ "-c" "--no-peep" "-pKF8A200GQS" "-IE:\KungFuIDE\include" "-IC:\Users\Rick\Desktop\EF5B\EF5B程序\EF5B-1" "-oLed.o" "../Led.c"
+ "-c" "--no-peep" "-pKF8A200GQS" "-IE:\KungFuIDE\include" "-IC:\Users\Rick\Desktop\EF5B\EF5B程序\EF5B-1" "-oOSC.o" "../OSC.c"
+ "-c" "--no-peep" "-pKF8A200GQS" "-IE:\KungFuIDE\include" "-IC:\Users\Rick\Desktop\EF5B\EF5B程序\EF5B-1" "-oSoftSpi.o" "../SoftSpi.c"

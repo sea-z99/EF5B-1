@@ -11,19 +11,16 @@
 #define InitBright 0
 void spi_init(void)
 {
-	TR92 =1;
-	TR91 =0;
-	TR03 =0;
-	TR04 =0;
-	TR62 =0;
-	APFCTL9 =0x06;
+	TR64 =1;
 
 	SSCI2EN=0;				//关闭SPI模块，初始化完之后再打开
 
 	SSCI2CTL0=0X01;			//SPI 主控模式，时钟 = 工作时钟/64
 	SSCI2CTL1=0X00;
 	SSCI2CTL2=0X00;
-	SSCI2STA=0X40;  //空闲时为低电平，在SCL下降沿发送数据
+	SSCI2STA=0X00;  //空闲时为低电平，在SCL下降沿发送数据
+	SSCI2CKP=0;
+	CKEGE2=1;
 
 	SSCI2EN=1;
 
@@ -68,6 +65,25 @@ void SPI_Write_2Byte(unsigned char id,unsigned char addr,unsigned char dat)
 	buf =SSCI2BUFR;
 	Spi_CS_High(id);
 }
+uint8_t SPI_Read(uint8_t id,uint8_t addr)
+{
+	char i=0;
+	volatile unsigned buf;
+	volatile unsigned char SPI_adr;
+	SPI_adr =addr|0x80;
+	Spi_CS_Low(id);
+	SSCI2BUFR=SPI_adr; //将待发送的字节放入发送缓存中
+	while(!SSCI2IF); //等待发送完毕后SSCIIF置位，
+	SSCI2IF=0;
+	buf =SSCI2BUFR;
+
+	SSCI2BUFR=0xFF; //将待发送的字节放入发送缓存中
+	while(!SSCI2IF); //等待发送完毕后SSCIIF置位，
+	SSCI2IF=0;
+	buf =SSCI2BUFR;
+	Spi_CS_High(id);
+	return buf;
+}
 void SPI_All_Write_2Byte(unsigned char addr,unsigned char dat)
 {
 	char i=0;
@@ -95,39 +111,39 @@ void IS31FL3265B_Init(void)
 }
 void Tail_One_Init(void)
 {
-	char i=0;
+	//char i=0;
 	SPI_Write_2Byte(1,0x00,0x01);
 
-	for(i=0x02;i<=0x13;i++)
-	{
-		SPI_Write_2Byte(1,i,0xFF);//SL
-	}
-
-	for(i=0x1F;i<=0x30;i++)
-	{
-		SPI_Write_2Byte(1,i,InitBright);//PWM
-	}
-
-	SPI_Write_2Byte(1,0x36,0x00);//update
-	SPI_Write_2Byte(1,0x37,0x00);//update
-	SPI_Write_2Byte(1,0x01,0x20);
+//	for(i=0x02;i<=0x13;i++)
+//	{
+//		SPI_Write_2Byte(1,i,0xFF);//SL
+//	}
+//
+//	for(i=0x1F;i<=0x30;i++)
+//	{
+//		SPI_Write_2Byte(1,i,InitBright);//PWM
+//	}
+//
+//	SPI_Write_2Byte(1,0x36,0x00);//update
+//	SPI_Write_2Byte(1,0x37,0x00);//update
+//	SPI_Write_2Byte(1,0x01,0x20);
 }
 void Tail_Two_Init(void)
 {
-	char i=0;
+	//char i=0;
 	SPI_Write_2Byte(2,0x00,0x01);
 
-	for(i=0x02;i<=0x13;i++)
-	{
-		SPI_Write_2Byte(2,i,0xFF);//SL
-	}
-
-	for(i=0x1F;i<=0x30;i++)
-	{
-		SPI_Write_2Byte(2,i,InitBright);//PWM
-	}
-
-	SPI_Write_2Byte(2,0x36,0x00);//update
-	SPI_Write_2Byte(2,0x37,0x00);//update
-	SPI_Write_2Byte(2,0x01,0x20);
+//	for(i=0x02;i<=0x13;i++)
+//	{
+//		SPI_Write_2Byte(2,i,0xFF);//SL
+//	}
+//
+//	for(i=0x1F;i<=0x30;i++)
+//	{
+//		SPI_Write_2Byte(2,i,InitBright);//PWM
+//	}
+//
+//	SPI_Write_2Byte(2,0x36,0x00);//update
+//	SPI_Write_2Byte(2,0x37,0x00);//update
+//	SPI_Write_2Byte(2,0x01,0x20);
 }

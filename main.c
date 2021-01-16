@@ -8,12 +8,16 @@
 //主函数
 void main()
 {
-	Init_OSC(2); //将系统时钟初始化为32M、使用外部晶振，
+	Init_OSC(4); //将系统时钟初始化为32M、使用外部晶振，
 	Init_GPIO();
 	IS31FL3265B_Init();
 	PUIE=1; //使能外设中断
 	AIE=1; //总中断开启
 	Led_Hello_Check();
+	if(!Get_Music())
+	{
+		Music_Loop();
+	}
 	while(1)
 	{
 		Tail_Stop_Check_Input();
