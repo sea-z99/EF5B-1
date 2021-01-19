@@ -9,6 +9,7 @@
 #define LED_H_
 
 #define LED_Interval	(50)
+#define RT_Interval		(20)
 
 #define OUT1 0x1F
 #define OUT2 0x20

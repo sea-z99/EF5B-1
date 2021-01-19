@@ -128,7 +128,7 @@ uint8_t SearchPwmFlag(void)
 }
 void PwmDetect(void)
 {
-	uint16_t time=2276;
+	uint32_t time=5690;
 	Timer2_Init();
 	PwmRisingInit();
 	while(PwmDetectStatus.State!=3&&time-->0)
@@ -351,7 +351,7 @@ void RT_Mode_Act(void)
 		Led_RT_AllClose();
 		break;
 	case Mode1_Status:
-		delay_ms(90);//µÈ´ýB
+		delay_ms(60);//µÈ´ýB
 		Clear_RT();
 		Led_RT_WaterOpen();
 		Detect_RT();

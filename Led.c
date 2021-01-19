@@ -138,7 +138,7 @@ void Led_RT_WaterOpen(void)//转向流水开，50ms
 		SPI_Write_2Byte(CS_U6,i,0xFF);//100%
 		SPI_Write_2Byte(CS_U6,i-1,0xFF);//100%
 		SPI_Write_2Byte(CS_U6,0x37,0x00);//update
-		delay_ms(LED_Interval);
+		delay_ms(RT_Interval);
 	}
 }
 void Led_RT_WaterClose(void)//转向流水关，50ms
@@ -172,16 +172,16 @@ void Led_Tail14_WaterOpen(uint8_t pwm)//位置流水开，50ms
 void Led_Tail14_WaterClose(uint8_t pwm)//转向流水关
 {
 	char i;
-	for(i=OUT1;i<=OUT6;i++)
-	{
-		SPI_Write_2Byte(CS_U6,i,pwm);
-		SPI_Write_2Byte(CS_U6,0x37,0x00);//update
-		delay_ms(LED_Interval);
-	}
 	for(i=OUT15;i<=OUT18;i++)
 	{
 		SPI_Write_2Byte(CS_U2,i,pwm);//100%
 		SPI_Write_2Byte(CS_U2,0x37,0x00);//update
+		delay_ms(LED_Interval);
+	}
+	for(i=OUT1;i<=OUT6;i++)
+	{
+		SPI_Write_2Byte(CS_U6,i,pwm);
+		SPI_Write_2Byte(CS_U6,0x37,0x00);//update
 		delay_ms(LED_Interval);
 	}
 }

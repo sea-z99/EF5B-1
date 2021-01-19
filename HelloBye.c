@@ -35,7 +35,7 @@ void Hello(void)
 		case  2850:Led_Tail8_BreathOpen();break;//启动自身位置8 呼吸点亮255ms,,间隔300ms总555ms
 		case  3405:Led_Tail7_BreathOpen();break;//启动自身位置7 呼吸点亮255ms,间隔300ms总555ms
 		case  3960:Led_Tail6_BreathOpen();break;//启动自身位置6 呼吸点亮255ms,间隔300ms,总555ms
-		case  4515:Stop_Open();Timer1_Stop();for(;;);break;//启动刹车亮 100% 停止计时，进入死循环
+		case  4515:Timer1_Stop();for(;;);break;//启动刹车亮 100% 停止计时，进入死循环
 		default:break;
 		}
 	}
