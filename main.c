@@ -17,10 +17,10 @@ void main()
 	AIE=1; //×ÜÖÐ¶Ï¿ªÆô
 	PwmDetect();
 	Led_Hello_Check(SearchPwmFlag());
-//	if(!Get_Music())
-//	{
-//		Music_Loop();
-//	}
+	if(!Get_Music())
+	{
+		Music_Loop();
+	}
 	while(1)
 	{
 		Tail_Check_Input();
