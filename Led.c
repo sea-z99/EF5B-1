@@ -34,6 +34,7 @@ void Led_RT_AllClose(void)
 		SPI_Write_2Byte(2,i,0);
 	}
 	SPI_Write_2Byte(2,0x37,0x00);//update
+	TEST=0;
 }
 void Clear_RT(void)
 {
@@ -41,15 +42,21 @@ void Clear_RT(void)
 	SPI_Read(CS_U6,0x16);
 	SPI_Read(CS_U6,0x17);
 }
-uint8_t dat1 = 0;
-uint8_t dat2 = 0;
+
 void Detect_RT(void)
 {
+	uint8_t dat1 = 0;
+	uint8_t dat2 = 0;
 	dat1 = SPI_Read(CS_U6,0x16);
 	dat2 = SPI_Read(CS_U6,0x17);
 	if(dat1>0||dat2>0)
 	{
 		Led_RT_AllClose();
+		TEST=0;
+	}
+	else
+	{
+		TEST=1;
 	}
 }
 void Led_Tail_AllOpen(void)
@@ -109,7 +116,7 @@ void Led_Tail_Cebiao_Open(void)//侧标灯
 	char i;
 	for(i=0x2D;i<=0x30;i++)
 	{
-		SPI_Write_2Byte(1,i,0xFF);//100%
+		SPI_Write_2Byte(1,i,0xA5);//65%
 	}
 	SPI_Write_2Byte(1,0x37,0x00);//update
 }
@@ -154,7 +161,7 @@ void Led_Tail14_WaterOpen(uint8_t pwm)//位置流水开，50ms
 		SPI_Write_2Byte(CS_U6,0x37,0x00);//update
 		delay_ms(LED_Interval);
 	}
-	for(i=OUT15;i<=OUT18;i++)
+	for(i=OUT18;i>=OUT15;i--)
 	{
 		SPI_Write_2Byte(CS_U2,i,pwm);//100%
 		SPI_Write_2Byte(CS_U2,0x37,0x00);//update
@@ -171,7 +178,7 @@ void Led_Tail14_WaterClose(uint8_t pwm)//转向流水关
 		SPI_Write_2Byte(CS_U6,0x37,0x00);//update
 		delay_ms(LED_Interval);
 	}
-	for(i=OUT18;i>=OUT15;i--)
+	for(i=OUT15;i<=OUT18;i++)
 	{
 		SPI_Write_2Byte(CS_U2,i,pwm);//100%
 		SPI_Write_2Byte(CS_U2,0x37,0x00);//update
