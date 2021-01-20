@@ -25,7 +25,7 @@ void Music_Loop(void)
 			case  7: Side_flash(0x20);while(Time_Counter==7); break;
 			case 12: Side_flash(0x40);while(Time_Counter==12); break;
 			case 17: Side_flash(0x80);while(Time_Counter==17); break;
-			case 22: Side_flash(0x80);SCAN(10);while(Time_Counter==22); break;
+			case 22: Side_flash(0x80);SCAN(6);while(Time_Counter==22); break;
 			case 55: Piano_flash(U2,OUT17);while(Time_Counter==55);break; //1st piano start
 			case 61: Piano_flash(U6,OUT2);while(Time_Counter==61);break;
 			case 67: Piano_flash(U6,OUT4);while(Time_Counter==67);break;
@@ -44,7 +44,7 @@ void Music_Loop(void)
 			case 174:Piano_flash(U6,OUT4);while(Time_Counter==174);break;
 			case 181:Piano_flash(U6,OUT2);while(Time_Counter==181);break;
 			case 187:Piano_flash(U2,OUT17);while(Time_Counter==187);break;   //1st piano end
-			case 190:Side_flash(0x80);SCAN(20);SCAN_BACK(30);while(Time_Counter==190);break;
+			case 190:Side_flash(0x80);SCAN(12);SCAN_BACK(21);while(Time_Counter==190);break;
 			case 237:Gangqin_Flash(U2,OUT15); while(Time_Counter==237);break; //2nd piano start
 			case 250:Gangqin_Flash(U2,OUT17);while(Time_Counter==250);break;
 			case 257:Gangqin_Flash(U6,OUT1);while(Time_Counter==257);break;
@@ -83,10 +83,10 @@ void Music_Loop(void)
 			case 364:BASE_PWM(0x00);Side_flash(0x80);while(Time_Counter==364);break;          ///////////////////
 			case 377:Side_flash(0x80); while(Time_Counter==377);break; //Left side flash
 			case 386:Side_flash(0x80);while(Time_Counter==386);break;  //Right side flash
-			case 387:SCAN(20);while(Time_Counter==387);break;                                    //SCAN x 2
+			case 387:SCAN(6);while(Time_Counter==387);break;                                    //SCAN x 2
 			case 454:Side_flash(0x80);while(Time_Counter==454);break;
 			case 466:Side_flash(0x80);while(Time_Counter==466);break;                                                    //right side flash
-			case 473:Side_flash(0x80);SCAN(20); while(Time_Counter==473);break; //Left side flash
+			case 473:Side_flash(0x80);SCAN(12); while(Time_Counter==473);break; //Left side flash
 			case 507:Side_flash(0x10);while(Time_Counter==507);break;
 			case 512:Side_flash(0x10);while(Time_Counter==512);break;
 			case 517:Side_flash(0x10);while(Time_Counter==517);break;
@@ -126,25 +126,25 @@ void Music_Loop(void)
 			case 871:while(Time_Counter==871);break;
 			case 872:while(Time_Counter==872);break;
 			case 875:Side_flash(0x80);while(Time_Counter==875);break;
-			case 876: SCAN(10);while(Time_Counter==876);break;
+			case 876: SCAN(6);while(Time_Counter==876);break;
 			case 907:Step1();while(Time_Counter==907);break; //left
 			case 912:while(Time_Counter==912);break;
 			case 916:while(Time_Counter==916);break; //right
 			case 926:LIUSHUI();while(Time_Counter==926);break;    //violin start
 			case 957:Side_flash(0x80);while(Time_Counter==957);break;
-			case 965: SCAN(10);while(Time_Counter==965);break;
+			case 965: SCAN(6);while(Time_Counter==965);break;
 			case 987:Step1(); while(Time_Counter==987);break; //left
 			case 993:while(Time_Counter==993);break;
 			case 998:while(Time_Counter==998);break; //right
 			case 1007:LIUSHUI(); while(Time_Counter==1007);break;
 			case 1038:Side_flash(0x80);while(Time_Counter==1038);break;
-			case 1047: SCAN(10);while(Time_Counter==1047);break;
+			case 1047: SCAN(6);while(Time_Counter==1047);break;
 			case 1067:Step1(); while(Time_Counter==1067);break; //left
 			case 1073:while(Time_Counter==1073);break;
 			case 1078:while(Time_Counter==1078);break; //right
 			case 1088:LIUSHUI(); while(Time_Counter==1088);break;
 			case 1120:Side_flash(0x80);while(Time_Counter==1120);break;
-			case 1127:SCAN(10);while(Time_Counter==1127);break;
+			case 1127:SCAN(6);while(Time_Counter==1127);break;
 			case 1149:Step1();while(Time_Counter==1149);break; //left
 			case 1155: while(Time_Counter==1155);break;		// Middle
 			case 1160: while(Time_Counter==1160);break; //right
@@ -174,7 +174,7 @@ void Music_Loop(void)
 			case 1406:while(Time_Counter==1406);break;
 			case 1426:while(Time_Counter==1426);break;
 			case 1444:End();while(Time_Counter==1444);break;
-			case 1485:Side_flash(0x80);SCAN(40);while(Time_Counter==1485);break;
+			case 1485:Side_flash(0x80);SCAN(24);while(Time_Counter==1485);break;
 			case 1500:Timer1_Stop();break; //disable Timer0
 			default:break;
 		}

@@ -26,5 +26,6 @@ void Side_flash(uint8_t pwm);
 void Piano_flash(uint8_t device,uint8_t ch1);
 void End(void);
 void Step1(void);
+void SCAN_Off(void);
 
 #endif /* MUSIC_H_ */

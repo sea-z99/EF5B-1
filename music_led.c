@@ -52,11 +52,11 @@ void All_LED_PWM(uint8_t pwm)
 	{
 		U2_SPI_Write_2Byte(i, pwm);
 	}
-	U2_SPI_Write_2Byte(0x37,0x00);//update
 	for(i=OUT1;i<=OUT6;i++)
 	{
 		U6_SPI_Write_2Byte(i, pwm);
 	}
+	U2_SPI_Write_2Byte(0x37,0x00);//update
 	U6_SPI_Write_2Byte(0x37,0x00);//update
 }
 void BASE_PWM(uint8_t pwm)
@@ -66,11 +66,11 @@ void BASE_PWM(uint8_t pwm)
 	{
 		U2_SPI_Write_2Byte(i, pwm);
 	}
-	U2_SPI_Write_2Byte(0x37,0x00);//update
 	for(i=OUT1;i<=OUT6;i++)
 	{
 		U6_SPI_Write_2Byte(i, pwm);
 	}
+	U2_SPI_Write_2Byte(0x37,0x00);//update
 	U6_SPI_Write_2Byte(0x37,0x00);//update
 }
 void Gangqin_Flash(uint8_t device,uint8_t channel)
@@ -95,16 +95,17 @@ void SCAN(uint16_t t)
 //		U6_SPI_Write_2Byte(0x37,0x00);//update
 //		Delayms(t);
 //	}
-	for(i=OUT1;i<=OUT6;i++)
-	{
-		U6_SPI_Write_2Byte(i, 0x20);
-	}
-	U6_SPI_Write_2Byte(0x37,0x00);//update
 	for(i=OUT15;i<=OUT18;i++)
 	{
 		U2_SPI_Write_2Byte(i, 0x20);
 	}
+
+	for(i=OUT1;i<=OUT6;i++)
+	{
+		U6_SPI_Write_2Byte(i, 0x20);
+	}
 	U2_SPI_Write_2Byte(0x37,0x00);//update
+	U6_SPI_Write_2Byte(0x37,0x00);//update
 
 	for(i=OUT15;i<=OUT18;i++)
 	{
@@ -119,8 +120,24 @@ void SCAN(uint16_t t)
 		Delayms(t);
 	}
 
-}
 
+}
+void SCAN_Off(void)
+{
+	uint8_t i;
+	for(i=OUT1;i<=OUT6;i++)
+	{
+		U6_SPI_Write_2Byte(i, 0x00);
+		U6_SPI_Write_2Byte(0x37,0x00);//update
+		Delayms(24);
+	}
+	for(i=OUT15;i<=OUT18;i++)
+	{
+		U2_SPI_Write_2Byte(i, 0x00);
+		U2_SPI_Write_2Byte(0x37,0x00);//update
+		Delayms(24);
+	}
+}
 void SCAN_BACK(uint16_t t)
 {
 	uint8_t i;
@@ -132,7 +149,7 @@ void SCAN_BACK(uint16_t t)
 // 		U6_SPI_Write_2Byte(0x37,0x00);//update
 // 		Delayms(t);
 // 	}
-    Delayms(t*12);
+    Delayms(360);
 	for(i=OUT6;i>=OUT1;i--)
 	{
 		U6_SPI_Write_2Byte(i, 0x05);  //PWM = 0x05
@@ -190,10 +207,10 @@ void Side_Liushui(uint16_t h)
 	uint8_t status,i,t;
 	for(t=0;t<h;t++)
 	{
-	    for(status = 0; status < (10 + 5); status++)   //ÐèÒª¾­¹ý num+length ¸ö×´Ì¬
+	    for(status = 0; status < (10 + 4); status++)   //ÐèÒª¾­¹ý num+length ¸ö×´Ì¬
         {
             All_LED_PWM(0x00);
-            for(i = 0; i < 5; i++)  //ÓÐÊý¾ÝµÄµÆ¸²¸ÇÖ®Ç°µÄ0£¬Ã»ÓÐÊý¾ÝµÄ¼ÌÐøÎªÃð
+            for(i = 0; i < 4; i++)  //ÓÐÊý¾ÝµÄµÆ¸²¸ÇÖ®Ç°µÄ0£¬Ã»ÓÐÊý¾ÝµÄ¼ÌÐøÎªÃð
             {
                 differ = status - i;
                 if((differ > -1) && (differ < 4))
@@ -209,10 +226,10 @@ void Side_Liushui(uint16_t h)
             U2_SPI_Write_2Byte(0x37, 0x00);  //update
             Delayms(10);
         }
-		for(status = 0; status < (10 + 5); status++)   //ÐèÒª¾­¹ý num+length ¸ö×´Ì¬
+		for(status = 0; status < (10 + 4); status++)   //ÐèÒª¾­¹ý num+length ¸ö×´Ì¬
         {
             All_LED_PWM(0x00);
-            for(i = 0; i < 5; i++)  //ÓÐÊý¾ÝµÄµÆ¸²¸ÇÖ®Ç°µÄ0£¬Ã»ÓÐÊý¾ÝµÄ¼ÌÐøÎªÃð
+            for(i = 0; i < 4; i++)  //ÓÐÊý¾ÝµÄµÆ¸²¸ÇÖ®Ç°µÄ0£¬Ã»ÓÐÊý¾ÝµÄ¼ÌÐøÎªÃð
             {
                 differ = status - i;
                 if((differ > -1) && (differ < 4))
@@ -226,9 +243,8 @@ void Side_Liushui(uint16_t h)
             }
             U2_SPI_Write_2Byte(0x37, 0x00);  //update
 			U6_SPI_Write_2Byte(0x37, 0x00);  //update
-			Delayms(10);
+			Delayms(8);
         }
-        Delayms(10);
 	}
 }
 void LIUSHUI(void)
@@ -269,7 +285,7 @@ void LIUSHUI(void)
 			{
 				U2_SPI_Write_2Byte(OUT15+i, 0x00);
 			}
-			for(i = 0; i < (10+4); i++)  //ÓÐÊý¾ÝµÄµÆ¸²¸ÇÖ®Ç°µÄ0£¬Ã»ÓÐÊý¾ÝµÄ¼ÌÐøÎªÃð
+			for(i = 0; i < 4; i++)  //ÓÐÊý¾ÝµÄµÆ¸²¸ÇÖ®Ç°µÄ0£¬Ã»ÓÐÊý¾ÝµÄ¼ÌÐøÎªÃð
 			{
 				differ = status - i;
 				if((differ > -1) && (differ < 4))
@@ -283,9 +299,8 @@ void LIUSHUI(void)
 			}
 			U2_SPI_Write_2Byte(0x37, 0x00);
 			U6_SPI_Write_2Byte(0x37, 0x00);  //update
-			Delayms(10);
+			Delayms(8);
 		}
-        Delayms(10);
 	}
 }
 
@@ -397,11 +412,11 @@ void Step1(void)
 	{
 		U6_SPI_Write_2Byte(i, 0xFF);
 	}
-	U6_SPI_Write_2Byte(0x37,0x00);//update
     for(i=OUT15;i<=OUT18;i++)
 	{
 		U2_SPI_Write_2Byte(i, 0xFF);
 	}
+	U6_SPI_Write_2Byte(0x37,0x00);//update
     U2_SPI_Write_2Byte(0x37,0x00);//update
 
 	Delayms(10);
