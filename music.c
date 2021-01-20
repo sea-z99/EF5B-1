@@ -14,6 +14,7 @@
 extern uint32_t Time_Counter;
 void Music_Loop(void)
 {
+	delay_ms(10000);//延迟10s启动
 	Init_42ms();
 	Timer1_Start();
 	while(1)
@@ -174,7 +175,7 @@ void Music_Loop(void)
 			case 1426:while(Time_Counter==1426);break;
 			case 1444:End();while(Time_Counter==1444);break;
 			case 1485:Side_flash(0x80);SCAN(40);while(Time_Counter==1485);break;
-			case 1500: Time_Counter=0; break; //disable Timer0
+			case 1500:Timer1_Stop();break; //disable Timer0
 			default:break;
 		}
 	}
