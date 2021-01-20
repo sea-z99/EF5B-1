@@ -63,12 +63,12 @@ void All_LED_PWM(uint8_t pwm)
 void BASE_PWM(uint8_t pwm)
 {
 	uint8_t i;
-	 for(i=OUT15;i<=OUT18;i++)
-	 {
-	 	U2_SPI_Write_2Byte(i, pwm);
-	 }
-	 U2_SPI_Write_2Byte(0x37,0x00);//update
-    for(i=OUT1;i<=OUT6;i++)
+	for(i=OUT15;i<=OUT18;i++)
+	{
+		U2_SPI_Write_2Byte(i, pwm);
+	}
+	U2_SPI_Write_2Byte(0x37,0x00);//update
+	for(i=OUT1;i<=OUT6;i++)
 	{
 		U6_SPI_Write_2Byte(i, pwm);
 	}
@@ -201,7 +201,7 @@ void Side_Liushui(uint16_t h)
                 {
                     U2_SPI_Write_2Byte(OUT15 + differ, 0xFF);
                 }
-                else if(differ >= 4)
+                else if((differ >= 4) && (differ < 10))
                 {
                     U6_SPI_Write_2Byte(OUT1 + (differ-4), 0xFF);
                 }
@@ -220,7 +220,7 @@ void Side_Liushui(uint16_t h)
                 {
                     U2_SPI_Write_2Byte(OUT18 - differ, 0xFF);
                 }
-                else if(differ >= 4)
+                else if((differ >= 4) && (differ < 10))
                 {
                     U6_SPI_Write_2Byte(OUT6 - (differ-4), 0xFF);
                 }
@@ -277,7 +277,7 @@ void LIUSHUI(void)
 				{
 					U2_SPI_Write_2Byte(OUT1 + differ, 0xFF);
 				}
-				else if(differ >= 4)
+				else if((differ >= 4) && (differ < 10))
 				{
 					U6_SPI_Write_2Byte(OUT15 + (differ-4), 0xFF);
 				}
