@@ -52,12 +52,11 @@ void All_LED_PWM(uint8_t pwm)
 	{
 		U2_SPI_Write_2Byte(i, pwm);
 	}
-
+	U2_SPI_Write_2Byte(0x37,0x00);//update
 	for(i=OUT1;i<=OUT6;i++)
 	{
 		U6_SPI_Write_2Byte(i, pwm);
 	}
-	U2_SPI_Write_2Byte(0x37,0x00);//update
 	U6_SPI_Write_2Byte(0x37,0x00);//update
 }
 void BASE_PWM(uint8_t pwm)
@@ -100,12 +99,12 @@ void SCAN(uint16_t t)
 	{
 		U6_SPI_Write_2Byte(i, 0x20);
 	}
+	U6_SPI_Write_2Byte(0x37,0x00);//update
 	for(i=OUT15;i<=OUT18;i++)
 	{
 		U2_SPI_Write_2Byte(i, 0x20);
 	}
 	U2_SPI_Write_2Byte(0x37,0x00);//update
-	U6_SPI_Write_2Byte(0x37,0x00);//update
 
 	for(i=OUT15;i<=OUT18;i++)
 	{
@@ -270,7 +269,7 @@ void LIUSHUI(void)
 			{
 				U2_SPI_Write_2Byte(OUT15+i, 0x00);
 			}
-			for(i = 0; i < 4; i++)  //ÓÐÊý¾ÝµÄµÆ¸²¸ÇÖ®Ç°µÄ0£¬Ã»ÓÐÊý¾ÝµÄ¼ÌÐøÎªÃð
+			for(i = 0; i < (10+4); i++)  //ÓÐÊý¾ÝµÄµÆ¸²¸ÇÖ®Ç°µÄ0£¬Ã»ÓÐÊý¾ÝµÄ¼ÌÐøÎªÃð
 			{
 				differ = status - i;
 				if((differ > -1) && (differ < 4))
