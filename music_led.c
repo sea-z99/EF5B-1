@@ -274,11 +274,11 @@ void LIUSHUI(void)
 				differ = status - i;
 				if((differ > -1) && (differ < 4))
 				{
-					U6_SPI_Write_2Byte(OUT1 + differ, 0xFF);
+					U2_SPI_Write_2Byte(OUT15 + differ, 0xFF);
 				}
 				else if((differ >= 4) && (differ < 10))
 				{
-					U2_SPI_Write_2Byte(OUT15 + (differ-4), 0xFF);
+					U6_SPI_Write_2Byte(OUT1 + (differ-4), 0xFF);
 				}
 			}
 			U2_SPI_Write_2Byte(0x37, 0x00);
