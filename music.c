@@ -14,7 +14,7 @@
 extern uint32_t Time_Counter;
 void Music_Loop(void)
 {
-	delay_ms(10000);//延迟10s启动
+	//delay_ms(10000);//延迟10s启动
 	Init_42ms();
 	Timer1_Start();
 	while(1)
