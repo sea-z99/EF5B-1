@@ -21,7 +21,7 @@ void SCAN(uint16_t t);
 void SCAN_BACK(uint16_t t);
 void Side_Liushui(uint16_t h);
 void LIUSHUI(void);
-void All_STOP_PWM(uint8_t pwm);
+//void All_STOP_PWM(uint8_t pwm);
 void Side_flash(uint8_t pwm);
 void Piano_flash(uint8_t device,uint8_t ch1);
 void End(void);
