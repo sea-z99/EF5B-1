@@ -413,7 +413,7 @@ void Step1(void)
 	U6_SPI_Write_2Byte(0x37,0x00);//update
     for(i=OUT15;i<=OUT18;i++)
 	{
-    	U2_SPI_Write_2Byte(i, 0xFF);
+    	U2_SPI_Write_2Byte(i, 0x00);
 	}
     U2_SPI_Write_2Byte(0x37,0x00);//update
 }
