@@ -11,5 +11,6 @@
 void Time_Increase(void);
 void Time_Clear(void);
 void Music_Loop(void);
+void Music_Loop_0_100(void);
 
 #endif /* MUSIC_H_ */
