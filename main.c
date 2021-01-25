@@ -10,7 +10,7 @@
 //主函数
 void main()
 {
-	Init_OSC(1); //将系统时钟初始化为32M、使用外部晶振，
+	Init_OSC(2); //将系统时钟初始化为32M、使用外部晶振，
 	Init_GPIO();
 	IS31FL3265B_Init();
 	PUIE=1; //使能外设中断
