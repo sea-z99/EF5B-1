@@ -129,7 +129,7 @@ void Led_Tail_Cebiao_Close(void)//侧标灯
 	}
 	SPI_Write_2Byte(1,0x37,0x00);//update
 }
-void Led_RT_WaterOpen(void)//转向流水开，50ms
+void Led_RT_WaterOpen(void)//转向流水开，20ms
 {
 	char i;
 	for(i=OUT17;i>=OUT8;i-=3)
@@ -141,7 +141,7 @@ void Led_RT_WaterOpen(void)//转向流水开，50ms
 		delay_ms(RT_Interval);
 	}
 }
-void Led_RT_WaterClose(void)//转向流水关，50ms
+void Led_RT_WaterClose(void)//转向流水关
 {
 	char i;
 	for(i=OUT17;i>=OUT8;i-=3)
