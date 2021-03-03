@@ -7,7 +7,6 @@ C_SRCS += \
 ../GPIO.c \
 ../HelloBye.c \
 ../Led.c \
-../LedLib.c \
 ../OSC.c \
 ../SoftSpi.c \
 ../Work.c \
@@ -15,14 +14,12 @@ C_SRCS += \
 ../main.c \
 ../music.c \
 ../music_led.c \
-../new_music.c \
 ../timer.c 
 
 OBJS += \
 ./GPIO.o \
 ./HelloBye.o \
 ./Led.o \
-./LedLib.o \
 ./OSC.o \
 ./SoftSpi.o \
 ./Work.o \
@@ -30,14 +27,12 @@ OBJS += \
 ./main.o \
 ./music.o \
 ./music_led.o \
-./new_music.o \
 ./timer.o 
 
 C_DEPS += \
 ./GPIO.dep \
 ./HelloBye.dep \
 ./Led.dep \
-./LedLib.dep \
 ./OSC.dep \
 ./SoftSpi.dep \
 ./Work.dep \
@@ -45,7 +40,6 @@ C_DEPS += \
 ./main.dep \
 ./music.dep \
 ./music_led.dep \
-./new_music.dep \
 ./timer.dep 
 
 
@@ -53,7 +47,7 @@ C_DEPS += \
 %.o: ../%.c
 	@echo '正在构建文件： $<'
 	@echo '正在调用： C Compiler'
-	kf8cc -c -pKF8A200GQS -I"C:\ChipONCC\include" -I"C:\Users\Rick\Desktop\EF5B-1" -o"$@" "$<"
+	kf8cc -c -pKF8A200GQS -I"E:\KungFuIDE\include" -I"C:\Users\Rick\Desktop\EF5B\EF5B程序\EF5B-1" -o"$@" "$<"
 	@echo '已结束构建： $<'
 	@echo ' '
 

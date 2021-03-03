@@ -262,7 +262,6 @@ void Piano_flash(uint8_t device,uint8_t ch1)
 		U6_SPI_Write_2Byte(0x37,0x00);//update
 	}
 }
-
 void End(void)
 {
 	uint8_t i,j;
@@ -282,7 +281,6 @@ void End(void)
 		Delayms(30);
 	}
 }
-
 void Step1(void)
 {
 	uint8_t i;
@@ -310,3 +308,58 @@ void Step1(void)
 	}
     U2_SPI_Write_2Byte(0x37,0x00);//update
 }
+
+//void Drum_Dong(void)
+//{
+//	uint8_t i;
+//    for(i=OUT1;i<=OUT6;i++)
+//	{
+//		U6_SPI_Write_2Byte(i, 0xFF);
+//	}
+//    for(i=OUT15;i<=OUT18;i++)
+//	{
+//		U2_SPI_Write_2Byte(i, 0xFF);
+//	}
+//	U6_SPI_Write_2Byte(0x37,0x00);//update
+//    U2_SPI_Write_2Byte(0x37,0x00);//update
+//
+//	Delayms(10);
+//
+//	for(i=OUT1;i<=OUT6;i++)
+//	{
+//		U6_SPI_Write_2Byte(i, 0x00);
+//	}
+//	U6_SPI_Write_2Byte(0x37,0x00);//update
+//    for(i=OUT15;i<=OUT18;i++)
+//	{
+//    	U2_SPI_Write_2Byte(i, 0x00);
+//	}
+//    U2_SPI_Write_2Byte(0x37,0x00);//update
+//}
+//void Drum_Da(void)
+//{
+//	uint8_t i;
+//    for(i=OUT1;i<=OUT6;i++)
+//	{
+//		U6_SPI_Write_2Byte(i, 0xFF);
+//	}
+//    for(i=OUT15;i<=OUT18;i++)
+//	{
+//		U2_SPI_Write_2Byte(i, 0xFF);
+//	}
+//	U6_SPI_Write_2Byte(0x37,0x00);//update
+//    U2_SPI_Write_2Byte(0x37,0x00);//update
+//
+//	Delayms(10);
+//
+//	for(i=OUT1;i<=OUT6;i++)
+//	{
+//		U6_SPI_Write_2Byte(i, 0x00);
+//	}
+//	U6_SPI_Write_2Byte(0x37,0x00);//update
+//    for(i=OUT15;i<=OUT18;i++)
+//	{
+//    	U2_SPI_Write_2Byte(i, 0x00);
+//	}
+//    U2_SPI_Write_2Byte(0x37,0x00);//update
+//}
