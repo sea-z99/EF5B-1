@@ -9,6 +9,7 @@
 #define LED_H_
 
 #define LED_Interval	(50)
+#define RT_Interval		(20)
 
 #define OUT1 0x1F
 #define OUT2 0x20
@@ -31,6 +32,8 @@
 
 void Stop_Open(void);
 void Stop_Close(void);
+void Stop_PWM(void);
+void Stop_HalfOpen(void);
 void Led_RT_AllOpen(void);
 void Led_RT_AllClose(void);
 void Clear_RT(void);

@@ -17,8 +17,8 @@
 #define uint32_t	unsigned int
 #define uint64_t	unsigned long
 
-#define U6 (0)
-#define U8 (1)
+#define U2 (1)
+#define U6 (2)
 
 #define CS_U2_6 (0)
 #define CS_U2 (1)

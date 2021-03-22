@@ -12,7 +12,8 @@
 #include "SoftSpi.h"
 #include "HelloBye.h"
 
-uint32_t Time_Counter = 0;
+uint64_t Time_Counter = 0;
+uint32_t Hello_Bye_Counter = 0;
 
 uint16_t PastMode=0;
 uint16_t NowMode=0;
@@ -21,7 +22,7 @@ uint16_t RT_PastMode=0;
 uint16_t RT_NowMode=0;
 uint16_t RT_ActMode=0;
 
-volatile uint8_t RT_Status,Back_Status,Tail_Status=0;
+volatile uint8_t RT_Status,Back_Status,Tail_Status,WB_Status=0;
 volatile uint8_t WB_EN_Status,CB_Status,RT_EN_Status =0;
 
 void Time_Increase(void)
@@ -34,20 +35,20 @@ void Time_Clear(void)
 }
 void Init_42ms(void)
 {
-	T1CTL2 = 0x0C;	//	Ê±ÖÓÔ´ÊÇSCLK/4£¬8·ÖÆµ
+	T1CTL2 = 0x0C;	//	æ—¶é’Ÿæºæ˜¯SCLK/4ï¼Œ8åˆ†é¢‘
 	T1H=0;
 	T1L=0;
-	PWMMODE = 1;	//Ê¹ÄÜÖØÔØ
+	PWMMODE = 1;	//ä½¿èƒ½é‡è½½
 	PP2=0xA4;		//42ms
 	PP1=0x10;
 	T1CS =0;
 }
 void Init_1ms(void)
 {
-	T1CTL2 = 0x0C;	//	Ê±ÖÓÔ´ÊÇSCLK/4£¬8·ÖÆµ
+	T1CTL2 = 0x0C;	//	æ—¶é’Ÿæºæ˜¯SCLK/4ï¼Œ8åˆ†é¢‘
 	T1H=0;
 	T1L=0;
-	PWMMODE = 1;	//Ê¹ÄÜÖØÔØ
+	PWMMODE = 1;	//ä½¿èƒ½é‡è½½
 	PP2=0x03;		//1000
 	PP1=0xE8;
 	T1CS =0;
@@ -55,47 +56,172 @@ void Init_1ms(void)
 void Timer1_Start(void)
 {
 	Time_Counter=0;
-	T1ON = 1;		//T1¶¨Ê±Æ÷Æô¶¯
+	T1ON = 1;		//T1å®šæ—¶å™¨å¯åŠ¨
 	T1IF = 0;
-	T1IE = 1;	//Ê¹ÄÜT1¶¨Ê±Æ÷µÄÖÐ¶Ï¹¦ÄÜ
+	T1IE = 1;	//ä½¿èƒ½T1å®šæ—¶å™¨çš„ä¸­æ–­åŠŸèƒ½
 }
 void Timer1_Stop(void)
 {
 	Time_Counter=0;
-	T1ON = 0;		//T1¶¨Ê±Æ÷Æô¶¯
+	T1ON = 0;		//T1å®šæ—¶å™¨å¯åŠ¨
 	T1IF = 0;
-	T1IE = 0;	//Ê¹ÄÜT1¶¨Ê±Æ÷µÄÖÐ¶Ï¹¦ÄÜ
+	T1IE = 0;	//ä½¿èƒ½T1å®šæ—¶å™¨çš„ä¸­æ–­åŠŸèƒ½
 }
-
+void Timer2_Init(void)
+{
+	T2CTL0 = 0x0B;	//	é¢„åˆ†é¢‘16ï¼ŒåŽåˆ†é¢‘2
+	T2CTL1 = 0x02; //å‘ä¸Šè®¡æ•°,æ—¶é’Ÿæºæ˜¯SCLK-32Mï¼Œ
+	T2H=0;
+	T2L=0;
+	PP60H=0;		//1000
+	PP60L=0x0A;
+}
+void Timer2_Start(void)
+{
+	T2IF = 0;
+	T2ON = 1;		//T2å®šæ—¶å™¨å¯åŠ¨
+	T2IE = 1;
+}
+void Timer2_Stop(void)
+{
+	T2IF = 0;
+	T2ON = 0;		//T2å®šæ—¶å™¨åœæ­¢
+	T2IE = 0;
+}
+void Timer3_Init(void)//1000
+{
+        T3CTL = 0xB1;   //      64m/8
+        T3H=0;
+        T3L=0;
+        T3REH=0x0F;             //4000
+        T3REL=0xA0;
+}
+void Timer3_Start(void)
+{
+        T3ON = 1;               //T3å®šæ—¶å™¨å¯åŠ¨
+        T3IF = 0;
+        T3IE = 1;
+}
+void Timer3_Stop(void)
+{
+        T3IF = 0;
+        T3ON = 0;               //T2å®šæ—¶å™¨åœæ­¢
+        T3IE = 0;
+}
+void PwmRisingInit(void)
+{
+	INT0IF=0;
+	INT0IE=1;
+	INT0SE=1;		//ä¸Šå‡æ²¿
+}
+void PwmFallingInit(void)
+{
+	INT0IF=0;
+	INT0IE=1;
+	INT0SE=0;		//ä¸‹é™æ²¿
+}
+void PwmDeInit(void)
+{
+	INT0IE=0;
+}
+void Hello_Bye_Callback(void)
+{
+	Hello_Bye_Counter+=100;
+}
+typedef struct
+{
+	uint8_t State;
+	uint32_t R_Time;
+	uint32_t F_Time;
+	uint8_t Duty;
+	uint8_t ActFlag;
+	uint8_t FromInteruppt;
+}PwmStatus;
+PwmStatus PwmDetectStatus;
+void PwmFromInteruppt(void)
+{
+	PwmDetectStatus.FromInteruppt=1;
+}
+uint8_t SearchPwmFlag(void)
+{
+	return PwmDetectStatus.ActFlag;
+}
+void PwmDetect(void)
+{
+	uint32_t time=5690;
+	Timer2_Init();
+	PwmRisingInit();
+	while(PwmDetectStatus.State!=3&&time-->0)
+	{
+		if(PwmDetectStatus.FromInteruppt)
+		{
+			PwmDetectStatus.FromInteruppt=0;
+			switch(PwmDetectStatus.State)
+			{
+			case 0:
+				Timer2_Start();
+				PwmFallingInit();
+				PwmDetectStatus.State = 1;
+				break;
+			case 1:
+				PwmDetectStatus.R_Time = Hello_Bye_Counter;
+				PwmRisingInit();
+				PwmDetectStatus.State = 2;
+				break;
+			case 2:
+				PwmDetectStatus.F_Time = Hello_Bye_Counter - PwmDetectStatus.R_Time;
+				PwmDeInit();
+				Timer2_Stop();
+				PwmDetectStatus.State = 3;
+				break;
+			default:break;
+			}
+		}
+	}
+	if(PwmDetectStatus.R_Time>PwmDetectStatus.F_Time)
+	{
+		PwmDetectStatus.ActFlag=1;
+	}
+	else if(PwmDetectStatus.R_Time<PwmDetectStatus.F_Time)
+	{
+		PwmDetectStatus.ActFlag=2;
+	}
+	else if(PwmDetectStatus.R_Time==0)
+	{
+		PwmDetectStatus.ActFlag=0;
+	}
+}
 uint8_t Get_Music(void)
 {
 	return MUSIC_EN;
 }
-void Led_Hello_Check(void)
+void Led_Hello_Check(uint8_t Flag)
 {
-	Tail_Status = TAIL;//43Î»ÖÃ
-	RT_Status = RT;//90×ªÏò
-	RT_EN_Status = RT_EN;//×ªÏòÊ¹ÄÜ
-	if(Tail_Status==1&&RT_Status==1&&RT_EN_Status==1)
+	Tail_Status = TAIL;//43ä½ç½®
+	RT_Status = RT;
+	WB_Status = WB_EN;
+	if(Tail_Status==1&&Flag==1)
+//	if(Tail_Status==1&&RT_Status==1&&WB_Status==1)
 	{
 		Init_1ms();
 		Timer1_Start();
 		Hello();
 	}
-	if(Tail_Status==1&&RT_Status==1&&RT_EN_Status==0)
+	if(Tail_Status==1&&Flag==2)
+//	if(Tail_Status==1&&RT_Status==1&&WB_Status==0)
 	{
-		LED_All_Open();//3265BÈ«¿ª³ý×ªÏò
+		LED_All_Open();//3265Bå…¨å¼€é™¤è½¬å‘
 		Init_1ms();
 		Timer1_Start();
 		Bye();
 	}
 }
-void Tail_Stop_Check_Input(void)
+void Tail_Check_Input(void)
 {
-	Tail_Status = TAIL;//43Î»ÖÃ
-	Back_Status = BACK;//42ÖÆ¶¯
-	CB_Status = CB;//²à±ê
-	if(Tail_Status==0&&Back_Status==0&&CB_Status==0)//È«µÍ
+	Tail_Status = TAIL;//43ä½ç½®
+	Back_Status = BACK;//42åˆ¶åŠ¨
+	CB_Status = CB;//ä¾§æ ‡
+	if(Tail_Status==0&&Back_Status==0&&CB_Status==0)//å…¨ä½Ž
 	{
 		PastMode = NowMode;NowMode = Mode0_Status;
 		if(NowMode==PastMode)
@@ -107,7 +233,7 @@ void Tail_Stop_Check_Input(void)
 			ActMode=NowMode;
 		}
 	}
-	else if(Tail_Status==0&&Back_Status==0&&CB_Status==1)//²à±ê
+	else if(Tail_Status==0&&Back_Status==0&&CB_Status==1)//ä¾§æ ‡
 	{
 		PastMode = NowMode;NowMode = Mode1_Status;
 		if(NowMode==PastMode)
@@ -119,7 +245,7 @@ void Tail_Stop_Check_Input(void)
 			ActMode=NowMode;
 		}
 	}
-	else if(Tail_Status==0&&Back_Status==1&&CB_Status==0)//É²³µ
+	else if(Tail_Status==0&&Back_Status==1&&CB_Status==0)//åˆ¹è½¦
 	{
 		PastMode = NowMode;NowMode = Mode2_Status;
 		if(NowMode==PastMode)
@@ -131,7 +257,7 @@ void Tail_Stop_Check_Input(void)
 			ActMode=NowMode;
 		}
 	}
-	else if(Tail_Status==0&&Back_Status==1&&CB_Status==1)//É²³µ²à±ê
+	else if(Tail_Status==0&&Back_Status==1&&CB_Status==1)//åˆ¹è½¦ä¾§æ ‡
 	{
 		PastMode = NowMode;NowMode = Mode3_Status;
 		if(NowMode==PastMode)
@@ -143,7 +269,7 @@ void Tail_Stop_Check_Input(void)
 			ActMode=NowMode;
 		}
 	}
-	else if(Tail_Status==1&&Back_Status==0&&CB_Status==0)//Î»ÖÃ
+	else if(Tail_Status==1&&Back_Status==0&&CB_Status==0)//ä½ç½®
 	{
 		PastMode = NowMode;NowMode = Mode4_Status;
 		if(NowMode==PastMode)
@@ -155,7 +281,7 @@ void Tail_Stop_Check_Input(void)
 			ActMode=NowMode;
 		}
 	}
-	else if(Tail_Status==1&&Back_Status==0&&CB_Status==1)//Î»ÖÃ²à±ê
+	else if(Tail_Status==1&&Back_Status==0&&CB_Status==1)//ä½ç½®ä¾§æ ‡
 	{
 		PastMode = NowMode;NowMode = Mode5_Status;
 		if(NowMode==PastMode)
@@ -167,7 +293,7 @@ void Tail_Stop_Check_Input(void)
 			ActMode=NowMode;
 		}
 	}
-	else if(Tail_Status==1&&Back_Status==1&&CB_Status==0)//Î»ÖÃÉ²³µ
+	else if(Tail_Status==1&&Back_Status==1&&CB_Status==0)//ä½ç½®åˆ¹è½¦
 	{
 		PastMode = NowMode;NowMode = Mode6_Status;
 		if(NowMode==PastMode)
@@ -179,7 +305,7 @@ void Tail_Stop_Check_Input(void)
 			ActMode=NowMode;
 		}
 	}
-	else if(Tail_Status==1&&Back_Status==1&&CB_Status==1)//È«¸ß
+	else if(Tail_Status==1&&Back_Status==1&&CB_Status==1)//å…¨é«˜
 	{
 		PastMode = NowMode;NowMode = Mode7_Status;
 		if(NowMode==PastMode)
@@ -198,45 +324,45 @@ void Mode_Act(void)
 {
 	switch(ActMode)
 	{
-	case Mode0_Status:			//È«µÍ
-		Led_Tail_AllClose();	//Î»ÖÃµÆ¹Ø±Õ
-		Led_Tail_Cebiao_Close();//²à±êµÆ¹Ø±Õ
-		Stop_Close();			//ÖÆ¶¯µÆ¹Ø±Õ
+	case Mode0_Status:			//å…¨ä½Ž
+		Led_Tail_AllClose();	//ä½ç½®ç¯å…³é—­
+		Led_Tail_Cebiao_Close();//ä¾§æ ‡ç¯å…³é—­
+		Stop_Close();			//åˆ¶åŠ¨ç¯å…³é—­
 		break;
-	case Mode1_Status:			//²à±ê
-		Led_Tail_AllClose();	//Î»ÖÃµÆ¹Ø±Õ
-		Led_Tail_Cebiao_Open();	//²à±êµÆ¿ªÆô
-		Stop_Close();			//ÖÆ¶¯µÆ¹Ø±Õ
+	case Mode1_Status:			//ä¾§æ ‡
+		Led_Tail_AllClose();	//ä½ç½®ç¯å…³é—­
+		Led_Tail_Cebiao_Open();	//ä¾§æ ‡ç¯å¼€å¯
+		Stop_Close();			//åˆ¶åŠ¨ç¯å…³é—­
 		break;
-	case Mode2_Status:			//É²³µ
-		Led_Tail_AllClose();	//Î»ÖÃµÆ¹Ø±Õ
-		Led_Tail_Cebiao_Close();//²à±êµÆ¹Ø±Õ
-		Stop_Open();			//ÖÆ¶¯µÆ¿ªÆô
+	case Mode2_Status:			//åˆ¹è½¦
+		Led_Tail_AllClose();	//ä½ç½®ç¯å…³é—­
+		Led_Tail_Cebiao_Close();//ä¾§æ ‡ç¯å…³é—­
+		Stop_HalfOpen();			//åˆ¶åŠ¨ç¯å¼€å¯
 		break;
-	case Mode3_Status:			//²à±êÉ²³µ
-		Led_Tail_AllClose();	//Î»ÖÃµÆ¹Ø±Õ
-		Led_Tail_Cebiao_Open();	//²à±êµÆ¿ªÆô
-		Stop_Open();			//ÖÆ¶¯µÆ¿ªÆô
+	case Mode3_Status:			//ä¾§æ ‡åˆ¹è½¦
+		Led_Tail_AllClose();	//ä½ç½®ç¯å…³é—­
+		Led_Tail_Cebiao_Open();	//ä¾§æ ‡ç¯å¼€å¯
+		Stop_HalfOpen();			//åˆ¶åŠ¨ç¯å¼€å¯
 		break;
-	case Mode4_Status:			//Î»ÖÃ
-		Led_Tail_AllOpen();		//Î»ÖÃµÆ¿ªÆô
-		Led_Tail_Cebiao_Close();//²à±êµÆ¹Ø±Õ
-		Stop_Close();			//ÖÆ¶¯µÆ¹Ø±Õ
+	case Mode4_Status:			//ä½ç½®
+		Led_Tail_AllOpen();		//ä½ç½®ç¯å¼€å¯
+		Led_Tail_Cebiao_Close();//ä¾§æ ‡ç¯å…³é—­
+		Stop_Close();			//åˆ¶åŠ¨ç¯å…³é—­
 		break;
-	case Mode5_Status:			//Î»ÖÃ²à±ê
-		Led_Tail_AllOpen();		//Î»ÖÃµÆ¿ªÆô
-		Led_Tail_Cebiao_Open();	//²à±êµÆ¿ªÆô
-		Stop_Close();			//ÖÆ¶¯µÆ¹Ø±Õ
+	case Mode5_Status:			//ä½ç½®ä¾§æ ‡
+		Led_Tail_AllOpen();		//ä½ç½®ç¯å¼€å¯
+		Led_Tail_Cebiao_Open();	//ä¾§æ ‡ç¯å¼€å¯
+		Stop_Close();			//åˆ¶åŠ¨ç¯å…³é—­
 		break;
-	case Mode6_Status:			//Î»ÖÃÉ²³µ
-		Led_Tail_AllOpen();		//Î»ÖÃµÆ¿ªÆô
-		Led_Tail_Cebiao_Close();//²à±êµÆ¹Ø±Õ
-		Stop_Open();			//ÖÆ¶¯µÆ¿ªÆô
+	case Mode6_Status:			//ä½ç½®åˆ¹è½¦
+		Led_Tail_AllOpen();		//ä½ç½®ç¯å¼€å¯
+		Led_Tail_Cebiao_Close();//ä¾§æ ‡ç¯å…³é—­
+		Stop_HalfOpen();			//åˆ¶åŠ¨ç¯å¼€å¯
 		break;
-	case Mode7_Status:			//È«¸ß
-		Led_Tail_AllOpen();		//Î»ÖÃµÆ¿ªÆô
-		Led_Tail_Cebiao_Open();	//²à±êµÆ¿ªÆô
-		Stop_Open();			//ÖÆ¶¯µÆ¿ªÆô
+	case Mode7_Status:			//å…¨é«˜
+		Led_Tail_AllOpen();		//ä½ç½®ç¯å¼€å¯
+		Led_Tail_Cebiao_Open();	//ä¾§æ ‡ç¯å¼€å¯
+		Stop_HalfOpen();			//åˆ¶åŠ¨ç¯å¼€å¯
 		break;
 	default:break;
 	}
@@ -249,7 +375,7 @@ void RT_Mode_Act(void)
 		Led_RT_AllClose();
 		break;
 	case Mode1_Status:
-		delay_ms(150);//µÈ´ýB
+		delay_ms(60);//ç­‰å¾…B
 		Clear_RT();
 		Led_RT_WaterOpen();
 		Detect_RT();
@@ -265,10 +391,10 @@ void RT_Mode_Act(void)
 }
 void RT_Check_Input(void)
 {
-	RT_Status = RT;//43Î»ÖÃ
-	RT_EN_Status = RT_EN;//42ÖÆ¶¯
+	RT_Status = RT;//è½¬å‘
+	RT_EN_Status = RT_EN;//è½¬å‘ä½¿èƒ½
 
-	if(RT_Status==0)//È«µÍ
+	if(RT_Status==0)//å…¨ä½Ž
 	{
 		RT_PastMode = RT_NowMode;RT_NowMode = Mode0_Status;
 		if(RT_NowMode==RT_PastMode)
@@ -280,7 +406,7 @@ void RT_Check_Input(void)
 			RT_ActMode=RT_NowMode;
 		}
 	}
-	else if(RT_Status==1&&RT_EN_Status==0)//Á÷Ë®
+	else if(RT_Status==1&&RT_EN_Status==0)//æµæ°´
 	{
 		RT_PastMode = RT_NowMode;RT_NowMode = Mode1_Status;
 		if(RT_NowMode==RT_PastMode)
@@ -292,7 +418,7 @@ void RT_Check_Input(void)
 			RT_ActMode=RT_NowMode;
 		}
 	}
-	else if(RT_Status==1&&RT_EN_Status==1)//³£ÁÁ
+	else if(RT_Status==1&&RT_EN_Status==1)//å¸¸äº®
 	{
 		RT_PastMode = RT_NowMode;RT_NowMode = Mode2_Status;
 		if(RT_NowMode==RT_PastMode)
