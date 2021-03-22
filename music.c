@@ -12,6 +12,10 @@
 #include "music.h"
 #include "music_led.h"
 extern uint32_t Time_Counter;
+void Music_Stop(void)
+{
+        Timer1_Stop();
+}
 void Music_Loop(void)
 {
 	delay_ms(10000);//延迟10s启动

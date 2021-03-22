@@ -88,6 +88,26 @@ void Timer2_Stop(void)
 	T2ON = 0;		//T2定时器停止
 	T2IE = 0;
 }
+void Timer3_Init(void)//1000
+{
+        T3CTL = 0xB1;   //      64m/8
+        T3H=0;
+        T3L=0;
+        T3REH=0x0F;             //4000
+        T3REL=0xA0;
+}
+void Timer3_Start(void)
+{
+        T3ON = 1;               //T3定时器启动
+        T3IF = 0;
+        T3IE = 1;
+}
+void Timer3_Stop(void)
+{
+        T3IF = 0;
+        T3ON = 0;               //T2定时器停止
+        T3IE = 0;
+}
 void PwmRisingInit(void)
 {
 	INT0IF=0;
@@ -317,12 +337,12 @@ void Mode_Act(void)
 	case Mode2_Status:			//刹车
 		Led_Tail_AllClose();	//位置灯关闭
 		Led_Tail_Cebiao_Close();//侧标灯关闭
-		Stop_Open();			//制动灯开启
+		Stop_HalfOpen();			//制动灯开启
 		break;
 	case Mode3_Status:			//侧标刹车
 		Led_Tail_AllClose();	//位置灯关闭
 		Led_Tail_Cebiao_Open();	//侧标灯开启
-		Stop_Open();			//制动灯开启
+		Stop_HalfOpen();			//制动灯开启
 		break;
 	case Mode4_Status:			//位置
 		Led_Tail_AllOpen();		//位置灯开启
@@ -337,12 +357,12 @@ void Mode_Act(void)
 	case Mode6_Status:			//位置刹车
 		Led_Tail_AllOpen();		//位置灯开启
 		Led_Tail_Cebiao_Close();//侧标灯关闭
-		Stop_Open();			//制动灯开启
+		Stop_HalfOpen();			//制动灯开启
 		break;
 	case Mode7_Status:			//全高
 		Led_Tail_AllOpen();		//位置灯开启
 		Led_Tail_Cebiao_Open();	//侧标灯开启
-		Stop_Open();			//制动灯开启
+		Stop_HalfOpen();			//制动灯开启
 		break;
 	default:break;
 	}

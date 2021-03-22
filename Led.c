@@ -9,13 +9,47 @@
 #include "Work.h"
 #include "Led.h"
 #include "SoftSpi.h"
+uint8_t Stop_PWM_Flag,Stop_High_Adress,Stop_Low_Adress=0;
+void Stop_PWM(void)
+{
+      if(Stop_PWM_Flag)
+      {
+          Stop_PWM_Flag=0;
+          T3REH=0x1A;             //4000
+          T3REL=0x0A;
+          if(Stop_High_Adress&0x1)
+          {
+              STOP=1;
+          }
+      }
+      else
+      {
+          Stop_PWM_Flag=1;
+          T3REH=0x34;             //4000
+          T3REL=0x15;
+          if(Stop_Low_Adress&0x1)
+          {
+              STOP=0;
+          }
+      }
+}
 void Stop_Open(void)
 {
-	STOP=1;
+    Timer3_Start();
+    Stop_High_Adress = 0x1;
+    Stop_Low_Adress = 0;
 }
 void Stop_Close(void)
 {
-	STOP=0;
+    Timer3_Stop();
+    Stop_High_Adress = 0;
+    Stop_Low_Adress = 0x1;
+}
+void Stop_HalfOpen(void)//66%
+{
+    Timer3_Start();
+    Stop_High_Adress = 0x1;
+    Stop_Low_Adress = 0x1;
 }
 void Led_RT_AllOpen(void)
 {
@@ -116,7 +150,7 @@ void Led_Tail_Cebiao_Open(void)//²à±êµÆ
 	char i;
 	for(i=0x2D;i<=0x30;i++)
 	{
-		SPI_Write_2Byte(1,i,0xA5);//65%
+		SPI_Write_2Byte(1,i,0xC4);//77%
 	}
 	SPI_Write_2Byte(1,0x37,0x00);//update
 }

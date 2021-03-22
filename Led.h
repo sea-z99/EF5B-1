@@ -32,6 +32,8 @@
 
 void Stop_Open(void);
 void Stop_Close(void);
+void Stop_PWM(void);
+void Stop_HalfOpen(void);
 void Led_RT_AllOpen(void);
 void Led_RT_AllClose(void);
 void Clear_RT(void);
