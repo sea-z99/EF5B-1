@@ -7,10 +7,9 @@
 #include "music_led.h"
 
 //主函数
-uint8_t music_flag=0;
 void main()
 {
-    Init_OSC(1); //将系统时钟初始化为32M、使用外部晶振，
+    Init_OSC(1);
     Init_GPIO();
     Timer3_Init();
     IS31FL3265B_Init();
@@ -20,15 +19,14 @@ void main()
     Led_Hello_Check(SearchPwmFlag());
     while(1)
     {
-        if(!Get_Music()&&music_flag==0)
+        if(Get_Music()==0)
         {
-            music_flag=1;
             Music_Loop();
         }
-        else if(Get_Music()&&music_flag==1)
-        {
-            Music_Stop();
-        }
+//        else if(Get_Music()&&music_flag==1)
+//        {
+//            Music_Stop();
+//        }
         Tail_Check_Input();
         RT_Check_Input();
     }

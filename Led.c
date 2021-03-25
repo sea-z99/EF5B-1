@@ -103,15 +103,15 @@ void Led_Tail_AllOpen(void)
 	SPI_Write_2Byte(2,0x37,0x00);//update
 	for(i=0x1F;i<=0x22;i++)
 	{
-		SPI_Write_2Byte(1,i,0x66);//40%--0x66
+		SPI_Write_2Byte(1,i,0x4C);//30%
 	}
 	for(i=0x23;i<=0x27;i++)
 	{
-		SPI_Write_2Byte(1,i,0xAA);//66.66%--0xAA
+		SPI_Write_2Byte(1,i,0x8C);//55%
 	}
 	for(i=0x28;i<=0x2C;i++)
 	{
-		SPI_Write_2Byte(1,i,0xFF);//100%--0xFF
+		SPI_Write_2Byte(1,i,0xC7);//78%
 	}
 	for(i=0x2D;i<=0x30;i++)
 	{
