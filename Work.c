@@ -12,7 +12,7 @@
 #include "SoftSpi.h"
 #include "HelloBye.h"
 
-uint64_t Time_Counter = 0;
+uint32_t Time_Counter = 0;
 uint32_t Hello_Bye_Counter = 0;
 
 uint16_t PastMode=0;
