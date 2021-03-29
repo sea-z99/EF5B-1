@@ -9,9 +9,11 @@
 #include "Work.h"
 #include "Led.h"
 #include "SoftSpi.h"
-uint8_t Stop_PWM_Flag,Stop_High_Adress,Stop_Low_Adress=0;
+uint8_t Stop_EN_Flag,Stop_PWM_Flag,Stop_High_Adress,Stop_Low_Adress=0;
 void Stop_PWM(void)
 {
+    if(Stop_EN_Flag)
+    {
       if(Stop_PWM_Flag)
       {
           Stop_PWM_Flag=0;
@@ -32,24 +34,26 @@ void Stop_PWM(void)
               STOP=0;
           }
       }
+    }
 }
 void Stop_Open(void)
 {
-    Timer3_Start();
     Stop_High_Adress = 0x1;
     Stop_Low_Adress = 0;
+    Stop_EN_Flag = 1;
 }
 void Stop_Close(void)
 {
-    Timer3_Stop();
     Stop_High_Adress = 0;
     Stop_Low_Adress = 0x1;
+    Stop_EN_Flag = 0;
+    STOP = 0;
 }
 void Stop_HalfOpen(void)//66%
 {
-    Timer3_Start();
     Stop_High_Adress = 0x1;
     Stop_Low_Adress = 0x1;
+    Stop_EN_Flag = 1;
 }
 void Led_RT_AllOpen(void)
 {

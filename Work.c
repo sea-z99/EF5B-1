@@ -95,6 +95,7 @@ void Timer3_Init(void)//1000
         T3L=0;
         T3REH=0x0F;             //4000
         T3REL=0xA0;
+        Timer3_Start();
 }
 void Timer3_Start(void)
 {
