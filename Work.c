@@ -127,14 +127,15 @@ void PwmDeInit(void)
 }
 void Hello_Bye_Callback(void)
 {
-	Hello_Bye_Counter+=100;
+	Hello_Bye_Counter+=10;
 }
 typedef struct
 {
 	uint8_t State;
 	uint32_t R_Time;
 	uint32_t F_Time;
-	uint8_t Duty;
+	uint32_t T_Time;
+	float Duty;
 	uint8_t ActFlag;
 	uint8_t FromInteruppt;
 }PwmStatus;
@@ -147,9 +148,20 @@ uint8_t SearchPwmFlag(void)
 {
 	return PwmDetectStatus.ActFlag;
 }
+void PwmStatusClear(void)
+{
+    PwmDetectStatus.State = 0;
+    PwmDetectStatus.R_Time = 0;
+    PwmDetectStatus.F_Time = 0;
+    PwmDetectStatus.T_Time = 0;
+    PwmDetectStatus.Duty = 0;
+    PwmDetectStatus.ActFlag = 0;
+    PwmDetectStatus.FromInteruppt = 0;
+}
 void PwmDetect(void)
 {
 	uint32_t time=5690;
+	PwmStatusClear();
 	Timer2_Init();
 	PwmRisingInit();
 	while(PwmDetectStatus.State!=3&&time-->0)
@@ -168,29 +180,36 @@ void PwmDetect(void)
 				PwmDetectStatus.R_Time = Hello_Bye_Counter;
 				PwmRisingInit();
 				PwmDetectStatus.State = 2;
+				Hello_Bye_Counter = 0;
 				break;
 			case 2:
-				PwmDetectStatus.F_Time = Hello_Bye_Counter - PwmDetectStatus.R_Time;
-				PwmDeInit();
-				Timer2_Stop();
+                                PwmDetectStatus.F_Time = Hello_Bye_Counter;
+                                PwmDeInit();
+                                Timer2_Stop();
+                                PwmDetectStatus.T_Time = PwmDetectStatus.R_Time + PwmDetectStatus.F_Time;
+                                PwmDetectStatus.Duty = (float)PwmDetectStatus.F_Time / (float)PwmDetectStatus.T_Time;
 				PwmDetectStatus.State = 3;
 				break;
 			default:break;
 			}
 		}
 	}
-	if(PwmDetectStatus.R_Time>PwmDetectStatus.F_Time)
-	{
-		PwmDetectStatus.ActFlag=1;
-	}
-	else if(PwmDetectStatus.R_Time<PwmDetectStatus.F_Time)
-	{
-		PwmDetectStatus.ActFlag=2;
-	}
-	else if(PwmDetectStatus.R_Time==0)
-	{
-		PwmDetectStatus.ActFlag=0;
-	}
+        if(PwmDetectStatus.R_Time==0)
+        {
+            PwmDetectStatus.ActFlag=0;
+            return;
+        }
+	if(PwmDetectStatus.T_Time>=3500&&PwmDetectStatus.T_Time<=4400)//127--187
+        {
+            if(PwmDetectStatus.Duty>=0.2&&PwmDetectStatus.Duty<=0.4)//30-40
+            {
+                PwmDetectStatus.ActFlag=1;
+            }
+            if(PwmDetectStatus.Duty>=0.6&&PwmDetectStatus.Duty<=0.8)//70-80
+            {
+                PwmDetectStatus.ActFlag=2;
+            }
+        }
 }
 uint8_t Get_Music(void)
 {

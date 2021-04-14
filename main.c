@@ -23,10 +23,6 @@ void main()
         {
             Music_Loop();
         }
-//        else if(Get_Music()&&music_flag==1)
-//        {
-//            Music_Stop();
-//        }
         Tail_Check_Input();
         RT_Check_Input();
     }
