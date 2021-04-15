@@ -45,6 +45,7 @@ void Led_Tail_Cebiao_Close(void);
 void Led_RT_WaterOpen(void);
 void Led_RT_WaterClose(void);
 void Led_Tail14_WaterOpen(uint8_t pwm);
+void Led_Tail14_OpenMax(void);
 void Led_Tail14_WaterClose(uint8_t pwm);
 void Led_Tail8_BreathOpen(void);
 void Led_Tail8_BreathClose(void);

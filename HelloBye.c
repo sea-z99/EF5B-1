@@ -31,7 +31,7 @@ void Hello(void)
 //		 default:break;
 		case  0:break;//启动等待
 		case  50:delay_ms(600);Led_Tail14_WaterOpen(80);break;//600ms等待B的流水,启动自身位置14 30%PWM流水10*50ms,,间隔300ms总1400ms
-		case  1450:delay_ms(600);Led_Tail14_WaterOpen(255);break;//600ms等待B的流水,启动自身位置14 100%PWM流水10*50ms,,间隔300ms总1400ms
+		case  1450:delay_ms(600);Led_Tail14_OpenMax();break;//600ms等待B的流水,启动自身位置14 100%PWM流水10*50ms,,间隔300ms总1400ms
 		case  2850:Led_Tail8_BreathOpen();break;//启动自身位置8 呼吸点亮255ms,,间隔300ms总555ms
 		case  3405:Led_Tail7_BreathOpen();break;//启动自身位置7 呼吸点亮255ms,间隔300ms总555ms
 		case  3960:Led_Tail6_BreathOpen();break;//启动自身位置6 呼吸点亮255ms,间隔300ms,总555ms

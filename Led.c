@@ -207,6 +207,23 @@ void Led_Tail14_WaterOpen(uint8_t pwm)//位置流水开，50ms
 	}
 
 }
+void Led_Tail14_OpenMax(void)
+{
+        char i;
+        for(i=OUT6;i>=OUT1;i--)
+        {
+                SPI_Write_2Byte(CS_U6,i,0xE0);//32%
+                SPI_Write_2Byte(CS_U6,0x37,0x00);//update
+                delay_ms(LED_Interval);
+        }
+        for(i=OUT18;i>=OUT15;i--)
+        {
+                SPI_Write_2Byte(CS_U2,i,0xC4);//100%
+                SPI_Write_2Byte(CS_U2,0x37,0x00);//update
+                delay_ms(LED_Interval);
+        }
+
+}
 void Led_Tail14_WaterClose(uint8_t pwm)//转向流水关
 {
 	char i;
@@ -226,7 +243,7 @@ void Led_Tail14_WaterClose(uint8_t pwm)//转向流水关
 void Led_Tail8_BreathOpen(void)//位置呼吸开，50ms
 {
 	static uint8_t i;
-	for(i=0;i<0xFF;i++)
+	for(i=0;i<0xC7;i++)
 	{
 		SPI_Write_2Byte(CS_U2,OUT10,i);
 		SPI_Write_2Byte(CS_U2,OUT11,i);
@@ -236,6 +253,10 @@ void Led_Tail8_BreathOpen(void)//位置呼吸开，50ms
 		SPI_Write_2Byte(CS_U2,0x37,0x00);//update
 		delay_ms(1);
 	}
+        for(i=0xC7;i<0xFF;i++)
+        {
+                delay_ms(1);
+        }
 }
 void Led_Tail8_BreathClose(void)//位置呼吸关
 {
@@ -260,7 +281,7 @@ void Led_Tail8_BreathClose(void)//位置呼吸关
 void Led_Tail7_BreathOpen(void)//位置呼吸开，50ms
 {
 	static uint8_t i;
-	for(i=0;i<0xFF;i++)
+	for(i=0;i<0x8C;i++)
 	{
 		SPI_Write_2Byte(CS_U2,OUT5,i);
 		SPI_Write_2Byte(CS_U2,OUT6,i);
@@ -270,6 +291,10 @@ void Led_Tail7_BreathOpen(void)//位置呼吸开，50ms
 		SPI_Write_2Byte(CS_U2,0x37,0x00);//update
 		delay_ms(1);
 	}
+        for(i=0x8C;i<0xFF;i++)
+        {
+            delay_ms(1);
+        }
 }
 void Led_Tail7_BreathClose(void)//位置呼吸关
 {
@@ -294,7 +319,7 @@ void Led_Tail7_BreathClose(void)//位置呼吸关
 void Led_Tail6_BreathOpen(void)//位置呼吸开，50ms
 {
 	static uint8_t i;
-	for(i=0;i<0xFF;i++)
+	for(i=0;i<0x4C;i++)
 	{
 		SPI_Write_2Byte(CS_U2,OUT1,i);
 		SPI_Write_2Byte(CS_U2,OUT2,i);
@@ -303,6 +328,10 @@ void Led_Tail6_BreathOpen(void)//位置呼吸开，50ms
 		SPI_Write_2Byte(CS_U2,0x37,0x00);//update
 		delay_ms(1);
 	}
+        for(i=0x4C;i<0xFF;i++)
+        {
+            delay_ms(1);
+        }
 }
 void Led_Tail6_BreathClose(void)//位置呼吸关
 {
