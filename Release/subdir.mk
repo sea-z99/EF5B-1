@@ -13,8 +13,7 @@ C_SRCS += \
 ../config_set.c \
 ../main.c \
 ../music.c \
-../music_led.c \
-../timer.c 
+../music_led.c 
 
 OBJS += \
 ./GPIO.o \
@@ -26,8 +25,7 @@ OBJS += \
 ./config_set.o \
 ./main.o \
 ./music.o \
-./music_led.o \
-./timer.o 
+./music_led.o 
 
 C_DEPS += \
 ./GPIO.dep \
@@ -39,8 +37,7 @@ C_DEPS += \
 ./config_set.dep \
 ./main.dep \
 ./music.dep \
-./music_led.dep \
-./timer.dep 
+./music_led.dep 
 
 
 # Each subdirectory must supply rules for building sources it contributes
