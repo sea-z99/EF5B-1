@@ -47,11 +47,13 @@ void Led_RT_WaterClose(void);
 void Led_Tail14_WaterOpen(uint8_t pwm);
 void Led_Tail14_OpenMax(void);
 void Led_Tail14_WaterClose(uint8_t pwm);
+void Led_Tail876_BreathOpen(void);
 void Led_Tail8_BreathOpen(void);
 void Led_Tail8_BreathClose(void);
 void Led_Tail7_BreathOpen(void);
 void Led_Tail7_BreathClose(void);
 void Led_Tail6_BreathOpen(void);
 void Led_Tail6_BreathClose(void);
+void Led_Tail678_BreathClose(void);
 void LED_All_Open(void);
 #endif /* LED_H_ */

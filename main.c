@@ -15,7 +15,7 @@ void main()
     IS31FL3265B_Init();
     PUIE=1; //使能外设中断
     AIE=1; //总中断开启
-    PwmDetect();
+    //PwmDetect();
     Led_Hello_Check(SearchPwmFlag());
     while(1)
     {

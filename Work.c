@@ -220,15 +220,15 @@ void Led_Hello_Check(uint8_t Flag)
 	Tail_Status = TAIL;//43位置
 	RT_Status = RT;
 	WB_Status = WB_EN;
-	if(Tail_Status==1&&Flag==1)
-//	if(Tail_Status==1&&RT_Status==1&&WB_Status==1)
+//	if(Tail_Status==1&&Flag==1)
+	if(Tail_Status==1&&RT_Status==1&&WB_Status==1)
 	{
 		Init_1ms();
 		Timer1_Start();
 		Hello();
 	}
-	if(Tail_Status==1&&Flag==2)
-//	if(Tail_Status==1&&RT_Status==1&&WB_Status==0)
+//	if(Tail_Status==1&&Flag==2)
+	if(Tail_Status==1&&RT_Status==1&&WB_Status==0)
 	{
 		LED_All_Open();//3265B全开除转向
 		Init_1ms();
