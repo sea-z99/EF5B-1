@@ -1,1 +1,0 @@
- "-O3" "KF8A200GQS_monitor.lib" "libkf8v4.lib" "KF8A200GQS.lib" "KF8_Touch_Fun.lib" "-sE:/KungFuIDE/kfl/KF8A200GQS.kfl" "-o" "EF5B-1.hex" "./GPIO.o" "./HelloBye.o" "./Led.o" "./OSC.o" "./SoftSpi.o" "./Work.o" "./config_set.o" "./main.o" "./music.o" "./music_led.o" "./timer.o"
