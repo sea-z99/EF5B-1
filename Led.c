@@ -197,13 +197,13 @@ void Led_Tail14_WaterOpen(uint8_t pwm)//位置流水开，50ms
 	{
 		SPI_Write_2Byte(CS_U6,i,pwm);//32%
 		SPI_Write_2Byte(CS_U6,0x37,0x00);//update
-		delay_ms(40);
+		delay_ms(60);
 	}
 	for(i=OUT18;i>=OUT15;i--)
 	{
 		SPI_Write_2Byte(CS_U2,i,pwm);//100%
 		SPI_Write_2Byte(CS_U2,0x37,0x00);//update
-		delay_ms(40);
+		delay_ms(60);
 	}
 
 }
@@ -231,20 +231,23 @@ void Led_Tail14_WaterClose(uint8_t pwm)//转向流水关
 	{
 		SPI_Write_2Byte(CS_U2,i,pwm);//100%
 		SPI_Write_2Byte(CS_U2,0x37,0x00);//update
-		delay_ms(40);
+		delay_ms(60);
 	}
 	for(i=OUT1;i<=OUT6;i++)
 	{
 		SPI_Write_2Byte(CS_U6,i,pwm);
 		SPI_Write_2Byte(CS_U6,0x37,0x00);//update
-		delay_ms(40);
+		delay_ms(60);
 	}
 }
 void Led_Tail876_BreathOpen(void)
 {
     Led_Tail8_BreathOpen();
+    delay_ms(20);
     Led_Tail7_BreathOpen();
+    delay_ms(20);
     Led_Tail6_BreathOpen();
+    delay_ms(20);
 }
 void Led_Tail8_BreathOpen(void)//位置呼吸开，50ms
 {
@@ -342,8 +345,11 @@ void Led_Tail6_BreathOpen(void)//位置呼吸开，50ms
 void Led_Tail678_BreathClose(void)
 {
     Led_Tail6_BreathClose();
+    delay_ms(20);
     Led_Tail7_BreathClose();
+    delay_ms(20);
     Led_Tail8_BreathClose();
+    delay_ms(20);
 }
 void Led_Tail6_BreathClose(void)//位置呼吸关
 {
