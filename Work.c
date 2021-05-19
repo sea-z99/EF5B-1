@@ -90,12 +90,11 @@ void Timer2_Stop(void)
 }
 void Timer3_Init(void)//1000
 {
-        T3CTL = 0xB1;   //      64m/8
+        T3CTL = 0xB0;   //      64m/8
         T3H=0;
         T3L=0;
-        T3REH=0x0F;             //4000
-        T3REL=0xA0;
-        Timer3_Start();
+        T3REH=0x75;             //50ms
+        T3REL=0x30;
 }
 void Timer3_Start(void)
 {
@@ -220,15 +219,15 @@ void Led_Hello_Check(uint8_t Flag)
 	Tail_Status = TAIL;//43位置
 	RT_Status = RT;
 	WB_Status = WB_EN;
-//	if(Tail_Status==1&&Flag==1)
-	if(Tail_Status==1&&RT_Status==1&&WB_Status==1)
+	if(Tail_Status==1&&Flag==1)
+//	if(Tail_Status==1&&RT_Status==1&&WB_Status==1)
 	{
 		Init_1ms();
 		Timer1_Start();
 		Hello();
 	}
-//	if(Tail_Status==1&&Flag==2)
-	if(Tail_Status==1&&RT_Status==1&&WB_Status==0)
+	if(Tail_Status==1&&Flag==2)
+//	if(Tail_Status==1&&RT_Status==1&&WB_Status==0)
 	{
 		LED_All_Open();//3265B全开除转向
 		Init_1ms();
@@ -345,44 +344,44 @@ void Mode_Act(void)
 	switch(ActMode)
 	{
 	case Mode0_Status:			//全低
-		Led_Tail_AllClose();	//位置灯关闭
-		Led_Tail_Cebiao_Close();//侧标灯关闭
+		Led_Tail_AllClose();	        //位置灯关闭
+		Led_Tail_Cebiao_Close();        //侧标灯关闭
 		Stop_Close();			//制动灯关闭
 		break;
 	case Mode1_Status:			//侧标
-		Led_Tail_AllClose();	//位置灯关闭
-		Led_Tail_Cebiao_Open();	//侧标灯开启
+		Led_Tail_AllClose();	        //位置灯关闭
+		Led_Tail_Cebiao_Open();	        //侧标灯开启
 		Stop_Close();			//制动灯关闭
 		break;
 	case Mode2_Status:			//刹车
-		Led_Tail_AllClose();	//位置灯关闭
-		Led_Tail_Cebiao_Close();//侧标灯关闭
-		Stop_HalfOpen();			//制动灯开启
+		Led_Tail_AllClose();	        //位置灯关闭
+		Led_Tail_Cebiao_Close();        //侧标灯关闭
+		Stop_Open();		        //制动灯开启
 		break;
 	case Mode3_Status:			//侧标刹车
-		Led_Tail_AllClose();	//位置灯关闭
-		Led_Tail_Cebiao_Open();	//侧标灯开启
-		Stop_HalfOpen();			//制动灯开启
+		Led_Tail_AllClose();	        //位置灯关闭
+		Led_Tail_Cebiao_Open();	        //侧标灯开启
+		Stop_Open();		        //制动灯开启
 		break;
 	case Mode4_Status:			//位置
 		Led_Tail_AllOpen();		//位置灯开启
-		Led_Tail_Cebiao_Close();//侧标灯关闭
+		Led_Tail_Cebiao_Close();        //侧标灯关闭
 		Stop_Close();			//制动灯关闭
 		break;
 	case Mode5_Status:			//位置侧标
 		Led_Tail_AllOpen();		//位置灯开启
-		Led_Tail_Cebiao_Open();	//侧标灯开启
+		Led_Tail_Cebiao_Open();	        //侧标灯开启
 		Stop_Close();			//制动灯关闭
 		break;
 	case Mode6_Status:			//位置刹车
 		Led_Tail_AllOpen();		//位置灯开启
-		Led_Tail_Cebiao_Close();//侧标灯关闭
-		Stop_HalfOpen();			//制动灯开启
+		Led_Tail_Cebiao_Close();        //侧标灯关闭
+		Stop_Open();		        //制动灯开启
 		break;
 	case Mode7_Status:			//全高
 		Led_Tail_AllOpen();		//位置灯开启
-		Led_Tail_Cebiao_Open();	//侧标灯开启
-		Stop_HalfOpen();			//制动灯开启
+		Led_Tail_Cebiao_Open();	        //侧标灯开启
+		Stop_Open();		        //制动灯开启
 		break;
 	default:break;
 	}
@@ -395,10 +394,8 @@ void RT_Mode_Act(void)
 		Led_RT_AllClose();
 		break;
 	case Mode1_Status:
-		delay_ms(60);//等待B
 		Clear_RT();
 		Led_RT_WaterOpen();
-		Detect_RT();
 		break;
 	case Mode2_Status:
 		Clear_RT();

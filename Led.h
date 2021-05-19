@@ -30,10 +30,12 @@
 #define OUT17 0x2F
 #define OUT18 0x30
 
+#define OUT19 0x31
+#define OUT20 0x32
+#define OUT21 0x33
+
 void Stop_Open(void);
 void Stop_Close(void);
-void Stop_PWM(void);
-void Stop_HalfOpen(void);
 void Led_RT_AllOpen(void);
 void Led_RT_AllClose(void);
 void Clear_RT(void);
@@ -43,6 +45,8 @@ void Led_Tail_AllClose(void);
 void Led_Tail_Cebiao_Open(void);
 void Led_Tail_Cebiao_Close(void);
 void Led_RT_WaterOpen(void);
+void Led_RT_WaterOpen_Loop(void);
+void Led_RT_WaterOpen_Callback(void);
 void Led_RT_WaterClose(void);
 void Led_Tail14_WaterOpen(uint8_t pwm);
 void Led_Tail14_OpenMax(void);

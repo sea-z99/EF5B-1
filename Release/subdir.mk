@@ -44,7 +44,7 @@ C_DEPS += \
 %.o: ../%.c
 	@echo '正在构建文件： $<'
 	@echo '正在调用： C Compiler'
-	kf8cc -c -pKF8A200GQS -I"C:\ChipONCC\include" -I"C:\Users\Rick\Desktop\EF5B-1" -o"$@" "$<"
+	kf8cc -c -pKF8A200GQS -I"E:\KungFuIDE\include" -I"C:\Users\Rick\Desktop\EF5B\EF5B程序\EF5B-1" -o"$@" "$<"
 	@echo '已结束构建： $<'
 	@echo ' '
 

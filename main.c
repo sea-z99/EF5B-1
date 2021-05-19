@@ -25,6 +25,7 @@ void main()
         }
         Tail_Check_Input();
         RT_Check_Input();
+        Led_RT_WaterOpen_Loop();
     }
 }
 //中断函数0:0X04入口地址
@@ -32,23 +33,23 @@ void int_fun0() __interrupt (0)
 {
 	if(T1IE & T1IF) //1ms中断
 	{
-		T1IF=0;
-		Time_Increase();
+              T1IF=0;
+              Time_Increase();
 	}
 	if(T2IE & T2IF) //1ms中断
 	{
-		T2IF=0;
-		Hello_Bye_Callback();
+              T2IF=0;
+              Hello_Bye_Callback();
 	}
         if(T3IE & T3IF) //1ms中断
         {
-                T3IF=0;
-                Stop_PWM();
+              T3IF=0;
+              Led_RT_WaterOpen_Callback();
         }
 	if(INT0IE && INT0IF) //INT0中断的响应
 	{
-		INT0IF=0;
-		PwmFromInteruppt();
+              INT0IF=0;
+              PwmFromInteruppt();
 	}
 }
 

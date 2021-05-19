@@ -24,7 +24,7 @@ all: EF5B-1.hex
 EF5B-1.hex: $(OBJS) $(USER_RELS)
 	@echo '正在构建目标： $@'
 	@echo '正在调用： C Project Linker Release'
-	kf8link -O3 -c -m libkf8v4.lib KF8A200GQS.lib -s"C:/ChipONCC/kfl/KF8A200GQS.kfl" -o "EF5B-1.hex" $(OBJS) $(USER_RELS) $(LIBS)
+	kf8link -O3 -c -m libkf8v4.lib KF8A200GQS.lib -s"E:/KungFuIDE/kfl/KF8A200GQS.kfl" -o "EF5B-1.hex" $(OBJS) $(USER_RELS) $(LIBS)
 	@echo '已结束构建目标： $@'
 	@echo ' '
 
