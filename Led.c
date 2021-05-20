@@ -9,186 +9,181 @@
 #include "Work.h"
 #include "Led.h"
 #include "SoftSpi.h"
-uint8_t Stop_EN_Flag,Stop_PWM_Flag,Stop_High_Adress,Stop_Low_Adress=0;
-void Stop_PWM(void)
-{
-    if(Stop_EN_Flag)
-    {
-      if(Stop_PWM_Flag)
-      {
-          Stop_PWM_Flag=0;
-          T3REH=0x1A;             //4000
-          T3REL=0x0A;
-          if(Stop_High_Adress&0x1)
-          {
-              STOP=1;
-          }
-      }
-      else
-      {
-          Stop_PWM_Flag=1;
-          T3REH=0x34;             //4000
-          T3REL=0x15;
-          if(Stop_Low_Adress&0x1)
-          {
-              STOP=0;
-          }
-      }
-    }
-}
 void Stop_Open(void)
 {
-    Stop_High_Adress = 0x1;
-    Stop_Low_Adress = 0;
-    Stop_EN_Flag = 1;
+    STOP=1;
 }
 void Stop_Close(void)
 {
-    Stop_High_Adress = 0;
-    Stop_Low_Adress = 0x1;
-    Stop_EN_Flag = 0;
     STOP = 0;
-}
-void Stop_HalfOpen(void)//66%
-{
-    Stop_High_Adress = 0x1;
-    Stop_Low_Adress = 0x1;
-    Stop_EN_Flag = 1;
 }
 void Led_RT_AllOpen(void)
 {
-	char i;
-	for(i=0x25;i<=0x30;i++)
-	{
-		SPI_Write_2Byte(2,i,255);
-	}
-	SPI_Write_2Byte(2,0x37,0x00);//update
+    char i;
+    for(i=OUT7;i<=OUT18;i++)
+    {
+        SPI_Write_2Byte(2,i,0xE8);//91%
+    }
+    SPI_Write_2Byte(2,0x37,0x00);//update
 }
 void Led_RT_AllClose(void)
 {
-	char i;
-	for(i=0x25;i<=0x30;i++)
-	{
-		SPI_Write_2Byte(2,i,0);
-	}
-	SPI_Write_2Byte(2,0x37,0x00);//update
-	TEST=0;
+    char i;
+    Timer5_Stop();
+    for(i=0x25;i<=0x30;i++)
+    {
+        SPI_Write_2Byte(2,i,0);
+    }
+    SPI_Write_2Byte(2,0x37,0x00);//update
+    TEST=0;
 }
 void Clear_RT(void)
 {
-	SPI_Read(CS_U6,0x15);
-	SPI_Read(CS_U6,0x16);
-	SPI_Read(CS_U6,0x17);
+    TEST=1;
+    SPI_Read(CS_U6,0x15);
+    SPI_Read(CS_U6,0x16);
+    SPI_Read(CS_U6,0x17);
 }
-
 void Detect_RT(void)
 {
-	uint8_t dat1 = 0;
-	uint8_t dat2 = 0;
-	dat1 = SPI_Read(CS_U6,0x16);
-	dat2 = SPI_Read(CS_U6,0x17);
-	if(dat1>0||dat2>0)
-	{
-		Led_RT_AllClose();
-		TEST=0;
-	}
-	else
-	{
-		TEST=1;
-	}
+    uint8_t dat1 = 0;
+    uint8_t dat2 = 0;
+    dat1 = SPI_Read(CS_U6,0x16);
+    dat2 = SPI_Read(CS_U6,0x17);
+    if(dat1>0||dat2>0)
+    {
+        Led_RT_AllClose();
+        TEST=0;
+    }
+    else
+    {
+        TEST=1;
+    }
 }
 void Led_Tail_AllOpen(void)
 {
-	char i;
-	for(i=0x1F;i<=0x24;i++)
-	{
-		SPI_Write_2Byte(2,i,0xE0);//88%
-	}
-	SPI_Write_2Byte(2,0x37,0x00);//update
-	for(i=0x1F;i<=0x22;i++)
-	{
-		SPI_Write_2Byte(1,i,0x4C);//30%
-	}
-	for(i=0x23;i<=0x27;i++)
-	{
-		SPI_Write_2Byte(1,i,0x8C);//55%
-	}
-	for(i=0x28;i<=0x2C;i++)
-	{
-		SPI_Write_2Byte(1,i,0xC7);//78%
-	}
-	for(i=0x2D;i<=0x30;i++)
-	{
-		SPI_Write_2Byte(1,i,0);//侧标关
-	}
-	SPI_Write_2Byte(1,0x37,0x00);//update
+    char i;
+    for(i=OUT1;i<=OUT6;i++)
+    {
+            SPI_Write_2Byte(2,i,0xE0);//88%
+    }
+    SPI_Write_2Byte(2,0x37,0x00);//update
+    for(i=OUT1;i<=OUT4;i++)
+    {
+            SPI_Write_2Byte(1,i,0x33);//20%
+    }
+    for(i=OUT5;i<=OUT9;i++)
+    {
+            SPI_Write_2Byte(1,i,0x7D);//49%
+    }
+    for(i=OUT10;i<=OUT14;i++)
+    {
+            SPI_Write_2Byte(1,i,0xFF);//100%
+    }
+    for(i=OUT15;i<=OUT18;i++)
+    {
+            SPI_Write_2Byte(1,i,0);//侧标关
+    }
+    SPI_Write_2Byte(1,0x37,0x00);//update
 }
 void Led_Tail_AllClose(void)
 {
-	char i;
-	for(i=0x1F;i<=0x24;i++)
-	{
-		SPI_Write_2Byte(2,i,0);//88%
-	}
-	SPI_Write_2Byte(2,0x37,0x00);//update
-	for(i=0x1F;i<=0x22;i++)
-	{
-		SPI_Write_2Byte(1,i,0);//40%--0x66
-	}
-	for(i=0x23;i<=0x27;i++)
-	{
-		SPI_Write_2Byte(1,i,0);//66.66%--0xAA
-	}
-	for(i=0x28;i<=0x2C;i++)
-	{
-		SPI_Write_2Byte(1,i,0);//100%--0xFF
-	}
-	for(i=0x2D;i<=0x30;i++)
-	{
-		SPI_Write_2Byte(1,i,0);//侧标关
-	}
-	SPI_Write_2Byte(1,0x37,0x00);//update
+    char i;
+    for(i=0x1F;i<=0x24;i++)
+    {
+            SPI_Write_2Byte(2,i,0);//88%
+    }
+    SPI_Write_2Byte(2,0x37,0x00);//update
+    for(i=0x1F;i<=0x22;i++)
+    {
+            SPI_Write_2Byte(1,i,0);//40%--0x66
+    }
+    for(i=0x23;i<=0x27;i++)
+    {
+            SPI_Write_2Byte(1,i,0);//66.66%--0xAA
+    }
+    for(i=0x28;i<=0x2C;i++)
+    {
+            SPI_Write_2Byte(1,i,0);//100%--0xFF
+    }
+    for(i=0x2D;i<=0x30;i++)
+    {
+            SPI_Write_2Byte(1,i,0);//侧标关
+    }
+    SPI_Write_2Byte(1,0x37,0x00);//update
 }
 void Led_Tail_Cebiao_Open(void)//侧标灯
 {
-	char i;
-	for(i=0x2D;i<=0x30;i++)
-	{
-		SPI_Write_2Byte(1,i,0xC4);//77%
-	}
-	SPI_Write_2Byte(1,0x37,0x00);//update
+    char i;
+    for(i=0x2D;i<=0x30;i++)
+    {
+            SPI_Write_2Byte(1,i,0xBD);//74%
+    }
+    SPI_Write_2Byte(1,0x37,0x00);//update
 }
 void Led_Tail_Cebiao_Close(void)//侧标灯
 {
-	char i;
-	for(i=0x2D;i<=0x30;i++)
-	{
-		SPI_Write_2Byte(1,i,0);//100%
-	}
-	SPI_Write_2Byte(1,0x37,0x00);//update
+    char i;
+    for(i=0x2D;i<=0x30;i++)
+    {
+            SPI_Write_2Byte(1,i,0);//100%
+    }
+    SPI_Write_2Byte(1,0x37,0x00);//update
+}
+uint8_t RT_Num = 0;
+uint8_t RT_Water_Flag = 0;
+void Led_RT_WaterOpen_Callback(void)
+{
+    RT_Water_Flag = 1;
+}
+void Led_RT_WaterOpen_Loop(void)
+{
+  if(RT_Water_Flag)
+  {
+    RT_Water_Flag = 0;
+    if(RT_Num>OUT17)
+    {
+        RT_Num--;
+    }
+    else
+    {
+      if(RT_Num>=OUT8)
+      {
+          SPI_Write_2Byte(CS_U6,RT_Num+1,0xE8);//91%
+          SPI_Write_2Byte(CS_U6,RT_Num,0xE8);//91%
+          SPI_Write_2Byte(CS_U6,RT_Num-1,0xE8);//91%
+          SPI_Write_2Byte(CS_U6,0x37,0x00);//update
+          RT_Num -= 3;
+      }
+      else
+      {
+          Timer5_Stop();
+          delay_ms(1);
+          Detect_RT();
+      }
+    }
+  }
 }
 void Led_RT_WaterOpen(void)//转向流水开，20ms
 {
-	char i;
-	for(i=OUT17;i>=OUT8;i-=3)
-	{
-		SPI_Write_2Byte(CS_U6,i+1,0xFF);//100%
-		SPI_Write_2Byte(CS_U6,i,0xFF);//100%
-		SPI_Write_2Byte(CS_U6,i-1,0xFF);//100%
-		SPI_Write_2Byte(CS_U6,0x37,0x00);//update
-		delay_ms(RT_Interval);
-	}
-}
-void Led_RT_WaterClose(void)//转向流水关
-{
-	char i;
-	for(i=OUT17;i>=OUT8;i-=3)
-	{
-		SPI_Write_2Byte(CS_U6,i+1,0);//100%
-		SPI_Write_2Byte(CS_U6,i,0);//100%
-		SPI_Write_2Byte(CS_U6,i-1,0);//100%
-		SPI_Write_2Byte(CS_U6,0x37,0x00);//update
-	}
+//	char i;
+//	for(i=OUT17;i>=OUT8;i-=3)
+//	{
+//		SPI_Write_2Byte(CS_U6,i+1,0xFF);//100%
+//		SPI_Write_2Byte(CS_U6,i,0xFF);//100%
+//		SPI_Write_2Byte(CS_U6,i-1,0xFF);//100%
+//		SPI_Write_2Byte(CS_U6,0x37,0x00);//update
+//		delay_ms(RT_Interval);
+//	}
+    if(BACK==1&&TAIL==0)
+    {
+        RT_Num = OUT23;
+    }
+    else
+    {
+        RT_Num = OUT20;
+    }
+    Timer5_Start();
 }
 void Led_Tail14_WaterOpen(uint8_t pwm)//位置流水开，50ms
 {
@@ -251,21 +246,21 @@ void Led_Tail876_BreathOpen(void)
 }
 void Led_Tail8_BreathOpen(void)//位置呼吸开，50ms
 {
-	static uint8_t i;
-	for(i=0;i<0xC7;i++)
-	{
-		SPI_Write_2Byte(CS_U2,OUT10,i);
-		SPI_Write_2Byte(CS_U2,OUT11,i);
-		SPI_Write_2Byte(CS_U2,OUT12,i);
-		SPI_Write_2Byte(CS_U2,OUT13,i);
-		SPI_Write_2Byte(CS_U2,OUT14,i);
-		SPI_Write_2Byte(CS_U2,0x37,0x00);//update
-		delay_ms(1);
-	}
-        for(i=0xC7;i<0xFF;i++)
-        {
-                delay_ms(1);
-        }
+      static uint8_t i;
+      for(i=0;i<0xC7;i++)
+      {
+              SPI_Write_2Byte(CS_U2,OUT10,i);
+              SPI_Write_2Byte(CS_U2,OUT11,i);
+              SPI_Write_2Byte(CS_U2,OUT12,i);
+              SPI_Write_2Byte(CS_U2,OUT13,i);
+              SPI_Write_2Byte(CS_U2,OUT14,i);
+              SPI_Write_2Byte(CS_U2,0x37,0x00);//update
+              delay_ms(1);
+      }
+      for(i=0xC7;i<0xFF;i++)
+      {
+              delay_ms(1);
+      }
 }
 void Led_Tail8_BreathClose(void)//位置呼吸关
 {
