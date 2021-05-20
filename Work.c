@@ -88,25 +88,26 @@ void Timer2_Stop(void)
 	T2ON = 0;		//T2定时器停止
 	T2IE = 0;
 }
-void Timer3_Init(void)//1000
+void Timer5_Init(void)//1000
 {
-        T3CTL = 0xB0;   //      64m/8
-        T3H=0;
-        T3L=0;
-        T3REH=0x75;             //50ms
-        T3REL=0x30;
+      T5CTL0 = 0x0B;  //      ʱ��Դ��SCLK-32M��Ԥ��Ƶ16�����Ƶ2
+      T5CTL1 = 0x02; //���ϼ���,ʱ��Դ��SCLK-32M��
+      T5H=0;
+      T5L=0;
+      PP70H=0x4E;             //1000
+      PP70L=0x20;
 }
-void Timer3_Start(void)
+void Timer5_Start(void)
 {
-        T3ON = 1;               //T3定时器启动
-        T3IF = 0;
-        T3IE = 1;
+      T5ON = 1;               //T5��ʱ������
+      T5IF = 0;
+      T5IE = 1;
 }
-void Timer3_Stop(void)
+void Timer5_Stop(void)
 {
-        T3IF = 0;
-        T3ON = 0;               //T2定时器停止
-        T3IE = 0;
+      T5ON = 0;               //T5��ʱ������
+      T5IF = 0;
+      T5IE = 0;
 }
 void PwmRisingInit(void)
 {

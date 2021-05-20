@@ -29,7 +29,7 @@ void Led_RT_AllOpen(void)
 void Led_RT_AllClose(void)
 {
     char i;
-    Timer3_Stop();
+    Timer5_Stop();
     for(i=0x25;i<=0x30;i++)
     {
         SPI_Write_2Byte(2,i,0);
@@ -39,6 +39,7 @@ void Led_RT_AllClose(void)
 }
 void Clear_RT(void)
 {
+    TEST=1;
     SPI_Read(CS_U6,0x15);
     SPI_Read(CS_U6,0x16);
     SPI_Read(CS_U6,0x17);
@@ -156,7 +157,8 @@ void Led_RT_WaterOpen_Loop(void)
       }
       else
       {
-          Timer3_Stop();
+          Timer5_Stop();
+          delay_ms(1);
           Detect_RT();
       }
     }
@@ -173,8 +175,15 @@ void Led_RT_WaterOpen(void)//转向流水开，20ms
 //		SPI_Write_2Byte(CS_U6,0x37,0x00);//update
 //		delay_ms(RT_Interval);
 //	}
-    RT_Num = OUT20;
-    Timer3_Start();
+    if(BACK==1&&TAIL==0)
+    {
+        RT_Num = OUT23;
+    }
+    else
+    {
+        RT_Num = OUT20;
+    }
+    Timer5_Start();
 }
 void Led_Tail14_WaterOpen(uint8_t pwm)//位置流水开，50ms
 {

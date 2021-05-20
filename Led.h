@@ -34,6 +34,10 @@
 #define OUT20 0x32
 #define OUT21 0x33
 
+#define OUT22 0x34
+#define OUT23 0x35
+#define OUT24 0x36
+
 void Stop_Open(void);
 void Stop_Close(void);
 void Led_RT_AllOpen(void);
