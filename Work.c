@@ -94,8 +94,8 @@ void Timer5_Init(void)//1000
       T5CTL1 = 0x02; //���ϼ���,ʱ��Դ��SCLK-32M��
       T5H=0;
       T5L=0;
-      PP70H=0x4E;             //1000
-      PP70L=0x20;
+      PP70H=0x75;             //30000
+      PP70L=0x30;
 }
 void Timer5_Start(void)
 {

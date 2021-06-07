@@ -183,6 +183,7 @@ void Led_RT_WaterOpen(void)//转向流水开，20ms
     {
         RT_Num = OUT20;
     }
+    RT_Water_Flag = 1;
     Timer5_Start();
 }
 void Led_Tail14_WaterOpen(uint8_t pwm)//位置流水开，50ms
@@ -209,13 +210,13 @@ void Led_Tail14_OpenMax(void)
         {
                 SPI_Write_2Byte(CS_U6,i,0xE0);//32%
                 SPI_Write_2Byte(CS_U6,0x37,0x00);//update
-                delay_ms(40);
+                delay_ms(60);
         }
         for(i=OUT18;i>=OUT15;i--)
         {
                 SPI_Write_2Byte(CS_U2,i,0xC4);//100%
                 SPI_Write_2Byte(CS_U2,0x37,0x00);//update
-                delay_ms(40);
+                delay_ms(60);
         }
 
 }
