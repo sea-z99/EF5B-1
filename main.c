@@ -23,6 +23,7 @@ void main()
         {
             Music_Loop();
         }
+        Stop_Check();
         Tail_Check_Input();
         RT_Check_Input();
         Led_RT_WaterOpen_Loop();

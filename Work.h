@@ -20,6 +20,7 @@ void Timer1_Stop(void);
 void InitPwmInit(void);
 void RT_Check_Input(void);
 void Tail_Check_Input(void);
+void Stop_Check(void);
 void PwmFromInteruppt(void);
 void PwmDetect(void);
 uint8_t SearchPwmFlag(void);

@@ -238,12 +238,15 @@ void Led_Hello_Check(uint8_t Flag)
 		Bye();
 	}
 }
+void Stop_Check(void)
+{
+    STOP = BACK;//42制动
+}
 void Tail_Check_Input(void)
 {
 	Tail_Status = TAIL;//43位置
-	Back_Status = BACK;//42制动
 	CB_Status = CB;//侧标
-	if(Tail_Status==0&&Back_Status==0&&CB_Status==0)//全低
+	if(Tail_Status==0&&CB_Status==0)//全低
 	{
 		PastMode = NowMode;NowMode = Mode0_Status;
 		if(NowMode==PastMode)
@@ -255,7 +258,7 @@ void Tail_Check_Input(void)
 			ActMode=NowMode;
 		}
 	}
-	else if(Tail_Status==0&&Back_Status==0&&CB_Status==1)//侧标
+	else if(Tail_Status==0&&CB_Status==1)//侧标
 	{
 		PastMode = NowMode;NowMode = Mode1_Status;
 		if(NowMode==PastMode)
@@ -267,7 +270,7 @@ void Tail_Check_Input(void)
 			ActMode=NowMode;
 		}
 	}
-	else if(Tail_Status==0&&Back_Status==1&&CB_Status==0)//刹车
+	else if(Tail_Status==1&&CB_Status==0)//位置
 	{
 		PastMode = NowMode;NowMode = Mode2_Status;
 		if(NowMode==PastMode)
@@ -279,57 +282,9 @@ void Tail_Check_Input(void)
 			ActMode=NowMode;
 		}
 	}
-	else if(Tail_Status==0&&Back_Status==1&&CB_Status==1)//刹车侧标
+	else if(Tail_Status==1&&CB_Status==1)//位置侧标
 	{
 		PastMode = NowMode;NowMode = Mode3_Status;
-		if(NowMode==PastMode)
-		{
-			ActMode=0;
-		}
-		else
-		{
-			ActMode=NowMode;
-		}
-	}
-	else if(Tail_Status==1&&Back_Status==0&&CB_Status==0)//位置
-	{
-		PastMode = NowMode;NowMode = Mode4_Status;
-		if(NowMode==PastMode)
-		{
-			ActMode=0;
-		}
-		else
-		{
-			ActMode=NowMode;
-		}
-	}
-	else if(Tail_Status==1&&Back_Status==0&&CB_Status==1)//位置侧标
-	{
-		PastMode = NowMode;NowMode = Mode5_Status;
-		if(NowMode==PastMode)
-		{
-			ActMode=0;
-		}
-		else
-		{
-			ActMode=NowMode;
-		}
-	}
-	else if(Tail_Status==1&&Back_Status==1&&CB_Status==0)//位置刹车
-	{
-		PastMode = NowMode;NowMode = Mode6_Status;
-		if(NowMode==PastMode)
-		{
-			ActMode=0;
-		}
-		else
-		{
-			ActMode=NowMode;
-		}
-	}
-	else if(Tail_Status==1&&Back_Status==1&&CB_Status==1)//全高
-	{
-		PastMode = NowMode;NowMode = Mode7_Status;
 		if(NowMode==PastMode)
 		{
 			ActMode=0;
@@ -349,42 +304,18 @@ void Mode_Act(void)
 	case Mode0_Status:			//全低
 		Led_Tail_AllClose();	        //位置灯关闭
 		Led_Tail_Cebiao_Close();        //侧标灯关闭
-		Stop_Close();			//制动灯关闭
 		break;
 	case Mode1_Status:			//侧标
 		Led_Tail_AllClose();	        //位置灯关闭
 		Led_Tail_Cebiao_Open();	        //侧标灯开启
-		Stop_Close();			//制动灯关闭
 		break;
-	case Mode2_Status:			//刹车
-		Led_Tail_AllClose();	        //位置灯关闭
+	case Mode2_Status:			//位置
+	        Led_Tail_AllOpen();	        //位置灯开启
 		Led_Tail_Cebiao_Close();        //侧标灯关闭
-		Stop_Open();		        //制动灯开启
 		break;
-	case Mode3_Status:			//侧标刹车
-		Led_Tail_AllClose();	        //位置灯关闭
-		Led_Tail_Cebiao_Open();	        //侧标灯开启
-		Stop_Open();		        //制动灯开启
-		break;
-	case Mode4_Status:			//位置
-		Led_Tail_AllOpen();		//位置灯开启
-		Led_Tail_Cebiao_Close();        //侧标灯关闭
-		Stop_Close();			//制动灯关闭
-		break;
-	case Mode5_Status:			//位置侧标
-		Led_Tail_AllOpen();		//位置灯开启
-		Led_Tail_Cebiao_Open();	        //侧标灯开启
-		Stop_Close();			//制动灯关闭
-		break;
-	case Mode6_Status:			//位置刹车
-		Led_Tail_AllOpen();		//位置灯开启
-		Led_Tail_Cebiao_Close();        //侧标灯关闭
-		Stop_Open();		        //制动灯开启
-		break;
-	case Mode7_Status:			//全高
-		Led_Tail_AllOpen();		//位置灯开启
-		Led_Tail_Cebiao_Open();	        //侧标灯开启
-		Stop_Open();		        //制动灯开启
+	case Mode3_Status:			//位置侧标
+                Led_Tail_AllOpen();             //位置灯开启
+                Led_Tail_Cebiao_Open();         //侧标灯开启
 		break;
 	default:break;
 	}
