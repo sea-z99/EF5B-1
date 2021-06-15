@@ -19,10 +19,10 @@ void main()
     Led_Hello_Check(SearchPwmFlag());
     while(1)
     {
-//        if(Get_Music()==0)
-//        {
-//            Music_Loop();
-//        }
+        if(Get_Music()==0)
+        {
+            Music_Loop();
+        }
         Tail_Check_Input();
         RT_Check_Input();
         Led_RT_WaterOpen_Loop();
