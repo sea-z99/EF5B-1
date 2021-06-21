@@ -15,7 +15,7 @@ extern uint32_t Time_Counter;
 
 void Hello(void)
 {
-	while(1)
+	while(!Check_Hello_Bye())
 	{
 		switch(Time_Counter)
 		{
@@ -32,7 +32,7 @@ void Hello(void)
 }
 void Bye(void)
 {
-	while(1)
+	while(!Check_Hello_Bye())
 	{
 		switch(Time_Counter)
 		{
