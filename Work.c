@@ -22,7 +22,7 @@ uint16_t RT_PastMode=0;
 uint16_t RT_NowMode=0;
 uint16_t RT_ActMode=0;
 
-volatile uint8_t RT_Status,Back_Status,Tail_Status,WB_Status=0;
+volatile uint8_t RT_Status,Stop_Status,Tail_Status,WB_Status=0;
 volatile uint8_t WB_EN_Status,CB_Status,RT_EN_Status =0;
 
 void Time_Increase(void)
@@ -215,7 +215,7 @@ void PwmDetect(void)
 }
 uint8_t Get_Music(void)
 {
-	return MUSIC_EN;
+    return MUSIC_EN;
 }
 void Led_Hello_Check(uint8_t Flag)
 {
@@ -383,4 +383,18 @@ void RT_Check_Input(void)
 	}
 	RT_Mode_Act();
 }
-
+uint8_t Check_Hello_Bye(void)
+{
+    RT_Status = RT;//转向
+    CB_Status = CB;//侧标
+    Stop_Status = BACK;
+    return RT_Status|CB_Status|Stop_Status;
+}
+uint8_t Check_Music(void)
+{
+    RT_Status = RT;//转向
+    CB_Status = CB;//侧标
+    Stop_Status = BACK;
+    Tail_Status = TAIL;
+    return Tail_Status|RT_Status|CB_Status|Stop_Status;
+}

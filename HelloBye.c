@@ -15,7 +15,7 @@ extern uint32_t Time_Counter;
 
 void Hello(void)
 {
-	while(1)
+	while(!Check_Hello_Bye())
 	{
 		switch(Time_Counter)
 		{
@@ -29,10 +29,11 @@ void Hello(void)
 		default:break;
 		}
 	}
+	Led_Tail_AllClose();
 }
 void Bye(void)
 {
-	while(1)
+	while(!Check_Hello_Bye())
 	{
 		switch(Time_Counter)
 		{
@@ -47,5 +48,6 @@ void Bye(void)
 		default:break;
 		}
 	}
+	Led_Tail_AllClose();
 }
 

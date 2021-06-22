@@ -18,7 +18,7 @@
 #define STOP		P9LR5
 #define TEST		P3LR0
 
-#define RT			P90
+#define RT		P90
 #define BACK 		P42
 #define TAIL 		P43
 #define MUSIC_EN 	P44
