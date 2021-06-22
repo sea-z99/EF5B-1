@@ -29,6 +29,7 @@ void Hello(void)
 		default:break;
 		}
 	}
+	Led_Tail_AllClose();
 }
 void Bye(void)
 {
@@ -47,5 +48,6 @@ void Bye(void)
 		default:break;
 		}
 	}
+	Led_Tail_AllClose();
 }
 

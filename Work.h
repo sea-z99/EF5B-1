@@ -29,6 +29,7 @@ void Timer5_Init(void);
 void Timer5_Start(void);
 void Timer5_Stop(void);
 uint8_t Check_Hello_Bye(void);
+uint8_t Check_Music(void);
 
 #define Mode0_Status 1<<0
 #define Mode1_Status 1<<1

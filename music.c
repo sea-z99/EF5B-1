@@ -15,12 +15,13 @@ extern uint32_t Time_Counter;
 uint32_t Temp_Time_Counter;
 uint8_t Music_Flag = 0;
 uint8_t Delay_Flag = 0;
+uint8_t Fail_Flag = 0;
 void Music_Stop(void)
 {
-        Timer1_Stop();
-        Music_Flag = 0;
-        Temp_Time_Counter = 0;
-        Delay_Flag = 0;
+    Timer1_Stop();
+    Music_Flag = 0;
+    Temp_Time_Counter = 0;
+    Delay_Flag = 0;
 }
 void Music_Start(void)
 {
@@ -31,12 +32,16 @@ void Music_Start(void)
         Timer1_Start();
     }
 }
-
 void Music_Loop(void)
 {
       Music_Start();
-      while(MUSIC_EN==0)
+      while(MUSIC_EN==0&&Fail_Flag==0)
       {
+          if(Check_Music())
+          {
+              Fail_Flag = 1;
+              Timer1_Stop();
+          }
           if(Delay_Flag==0)
           {
               switch(Time_Counter)

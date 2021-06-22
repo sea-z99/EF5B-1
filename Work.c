@@ -215,7 +215,7 @@ void PwmDetect(void)
 }
 uint8_t Get_Music(void)
 {
-	return MUSIC_EN;
+    return MUSIC_EN;
 }
 void Led_Hello_Check(uint8_t Flag)
 {
@@ -387,6 +387,14 @@ uint8_t Check_Hello_Bye(void)
 {
     RT_Status = RT;//转向
     CB_Status = CB;//侧标
-    Stop_Status = STOP;
-    return RT_Status&CB_Status&Stop_Status;
+    Stop_Status = BACK;
+    return RT_Status|CB_Status|Stop_Status;
+}
+uint8_t Check_Music(void)
+{
+    RT_Status = RT;//转向
+    CB_Status = CB;//侧标
+    Stop_Status = BACK;
+    Tail_Status = TAIL;
+    return Tail_Status|RT_Status|CB_Status|Stop_Status;
 }
