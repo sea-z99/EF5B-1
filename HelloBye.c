@@ -25,7 +25,7 @@ void Hello(void)
 		case  2700:Led_Tail8_BreathOpen();break;//启动自身位置8 呼吸点亮255ms,,间隔300ms总555ms
 		case  3000:Led_Tail7_BreathOpen();break;//启动自身位置7 呼吸点亮255ms,间隔300ms总555ms
 		case  3300:Led_Tail6_BreathOpen();break;//启动自身位置6 呼吸点亮255ms,间隔300ms,总555ms
-		case  5000:Timer1_Stop();for(;;);break;//启动刹车亮 100% 停止计时，进入死循环
+		case  5000:Timer1_Stop();break;//启动刹车亮 100% 停止计时，进入死循环
 		default:break;
 		}
 	}
@@ -44,7 +44,7 @@ void Bye(void)
 		case  990:Led_Tail8_BreathClose();break;//启动自身位置8呼吸关255ms,无间隔0,总555ms
 		case  1330:Led_Tail14_WaterClose(80);break;//启动自身位置14流水关 30%PWM流水10*50ms,等待B 600ms，间隔20ms,总1120ms
 		case  2650:Led_Tail14_WaterClose(0);break;//启动自身位置14流水关 0%PWM流水10*50ms,等待B 600ms，间隔20ms,总1120ms
-		case  5000:Timer1_Stop();for(;;);break;//灯光全灭，进入死循环
+		case  5000:Timer1_Stop();break;//灯光全灭，进入死循环
 		default:break;
 		}
 	}
